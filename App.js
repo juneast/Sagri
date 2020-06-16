@@ -1,11 +1,37 @@
-import React from 'react';
+import React, {Component} from 'react';
 import { AppLoading } from 'expo';
 import { Container, Text } from 'native-base';
 import * as Font from 'expo-font';
 import { Ionicons } from '@expo/vector-icons';
-import UpperMenu from './UpperMenu'
-import FooterA from './FooterA'
-import {View,StyleSheet} from 'react-native'
+import UpperMenu from './src/UpperMenu'
+import FooterA from './src/FooterA'
+import { View, StyleSheet, Button } from 'react-native'
+
+import { NavigationContainer } from '@react-navigation/native';
+import { createStackNavigator } from '@react-navigation/stack'
+import Temp from './src/Temp'
+const Stack = createStackNavigator();
+
+class HomeScreen extends Component{
+  handleDetails = ()=>{
+  }
+  render(){
+    return (
+      <Container style={styles.view}>
+          <UpperMenu navigation={this.props.navigation}/>
+          <FooterA />
+      </Container>
+  
+    );
+  }
+}
+
+function DetailsScreen({route}) {
+  return (
+    <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}><Temp></Temp></View>
+  );
+}
+
 export default class App extends React.Component {
   constructor(props) {
     super(props);
@@ -29,16 +55,19 @@ export default class App extends React.Component {
     }
 
     return (
-      <Container style={styles.view}>
-          <UpperMenu />
-          <FooterA/>
-      </Container>
+      <NavigationContainer>
+        <Stack.Navigator initialRouteName="Home">
+          <Stack.Screen name="Home" component={HomeScreen} options ={{headerShown : false}}/>
+          <Stack.Screen name="Details" component={DetailsScreen} />
+        </Stack.Navigator>
+      </NavigationContainer>
+      
     );
   }
 }
 const styles = StyleSheet.create({
   view: {
-    marginTop: 50,
+    marginTop:50
   },
   container: {
     flex: 1,
@@ -46,7 +75,8 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'center',
   },
-  ma : {
-    marginTop:50,
+  ma: {
+    marginTop: 50,
   }
 });
+

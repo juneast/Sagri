@@ -2,9 +2,8 @@ import React, { Component } from 'react';
 import { Image, View } from 'react-native';
 import { Container, Header, Content, Card, CardItem, Thumbnail, Text, Button, Icon, Left, Body, Right } from 'native-base';
 
-export default class CardImageExample extends Component {
+export default function CardImageExample(){
 
-  render() {
 
     return (
           <Card styles={{flex:0}}>
@@ -32,11 +31,10 @@ export default class CardImageExample extends Component {
                 </Button>
               </Left>
               <Body>
-                
-              </Body>
 
+              </Body>
             </CardItem>
           </Card>
     );
-  }
+  
 }

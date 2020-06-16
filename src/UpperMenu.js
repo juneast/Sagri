@@ -1,25 +1,24 @@
 import React, { Component } from 'react';
-import { View, ScrollView } from 'react-native';
-import { Container, Tab, Tabs, ScrollableTab, Text,Button } from 'native-base';
+import {ScrollView ,TouchableOpacity} from 'react-native';
+import { Container, Tab, Tabs, ScrollableTab, Text, Button } from 'native-base';
 import CardExample from './Comp'
 
 let Anot = [1, 2, 3, 4, 5, 6, 7, 8, 9];
-
-export default function UpperMenu() {
+export default function UpperMenu({navigation}) {
     let abc = Anot.map((item, index) => {
-        return <Button style={{margin:10, borderRadius:10}}><Text>{item}</Text></Button>;
+        return <Button style={{ margin: 10, borderRadius: 10 }} ><Text>{item}</Text></Button>;
     });
     Anot = Anot.map((item, index) => {
-        return <CardExample key={index} item={item} />
+        return (
+            <TouchableOpacity onPress={()=>navigation.navigate("Details",{pageId : item})}><CardExample key={index}/></TouchableOpacity>
+        )
     })
     return (
         <Container>
-            
-            
             <Tabs locked={true} renderTabBar={() => <ScrollableTab />}>
-                <Tab  heading="지역">
+                <Tab heading="지역">
                     <ScrollView>
-                    <ScrollView horizontal>{abc}</ScrollView>
+                        <ScrollView horizontal>{abc}</ScrollView>
                         {Anot}
                     </ScrollView>
                 </Tab>
