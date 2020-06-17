@@ -2,6 +2,8 @@ import React, { Component } from 'react';
 import { View, StyleSheet, Button,ScrollView} from 'react-native'
 import {Text,Icon} from 'native-base';
 import Tag from './Tag'
+import Comment from './Comment'
+
 export default class Temp extends Component {
     render() {
         return (
@@ -28,10 +30,10 @@ export default class Temp extends Component {
                 </View>
             </View>
                 <View style = {styles.sagri}><Text style= {styles.sagriText}>SAGRI</Text></View>
-                <View style = {{...styles.sagri, height:500}}>
-                    <Text>asdf</Text>
-                    <View style = {styles.divider}></View>
-                    <Text>asdf</Text>
+                <View style = {{...styles.sagri, height:"auto"}}>
+                    <Comment/>
+                    <Comment/>
+                    <Comment/>
                 </View>
             </ScrollView>
         );
@@ -52,7 +54,7 @@ const styles = StyleSheet.create({
   divider : {
       height:5,
       borderBottomColor:"#ccc",
-      borderBottomWidth:1,
+      borderBottomWidth:StyleSheet.hairlineWidth,
       marginTop:15,
       marginBottom:15,
   },
