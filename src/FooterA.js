@@ -1,11 +1,8 @@
-import React, { Component } from 'react';
+import React from 'react';
 import { View } from 'react-native';
 import { Container, Header, Content, Footer, FooterTab, Button, Icon, Text } from 'native-base';
 
-export default class FooterA extends Component {
-
-  render() {
-
+const FooterA =({navigation})=> {
     return (
       <Footer>
         <FooterTab>
@@ -25,8 +22,13 @@ export default class FooterA extends Component {
             <Icon name="person" />
             <Text>내정보</Text>
           </Button>
+          <Button vertical onPress = {()=>navigation.navigate("글작성")}>
+            <Icon name="create" />
+            <Text>글작성</Text>
+          </Button>
         </FooterTab>
       </Footer>
     );
   }
-}
+
+  export default FooterA;

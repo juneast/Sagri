@@ -1,4 +1,4 @@
-import React, {Component} from 'react';
+import React, { Component } from 'react';
 import { AppLoading } from 'expo';
 import { Container, Text } from 'native-base';
 import * as Font from 'expo-font';
@@ -10,28 +10,36 @@ import { View, StyleSheet, Button } from 'react-native'
 import { NavigationContainer } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack'
 import Temp from './src/Temp'
+import MakeBoard from './src/MakeBoard'
+import Action from './src/Action'
 const Stack = createStackNavigator();
 
-class HomeScreen extends Component{
-  handleDetails = ()=>{
+class HomeScreen extends Component {
+  handleDetails = () => {
   }
-  render(){
+  render() {
     return (
       <Container style={styles.view}>
-          <UpperMenu navigation={this.props.navigation}/>
-          <FooterA />
+        <UpperMenu navigation={this.props.navigation} />
+        <FooterA navigation={this.props.navigation} />
       </Container>
-  
+
     );
   }
 }
 
-function DetailsScreen({route}) {
+function DetailsScreen({ route }) {
   return (
     <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}><Temp></Temp></View>
   );
 }
-
+function MakeBoardScreen({ route }) {
+  return (
+    <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
+      <MakeBoard />
+    </View>
+  );
+}
 export default class App extends React.Component {
   constructor(props) {
     super(props);
@@ -57,17 +65,25 @@ export default class App extends React.Component {
     return (
       <NavigationContainer>
         <Stack.Navigator initialRouteName="Home">
-          <Stack.Screen name="Home" component={HomeScreen} options ={{headerShown : false}}/>
+          <Stack.Screen name="Home" component={HomeScreen} options={{ headerShown: false }} />
           <Stack.Screen name="Details" component={DetailsScreen} />
+          <Stack.Screen name="글작성" component={MakeBoardScreen} options={{
+            headerTitle: props => <Action />,
+            headerTitleAlign: "center",
+            headerTintColor: '#000',
+            headerRight: props => (
+              <Text style={{ marginRight: 20 }}>등록</Text>
+            )
+          }} />
         </Stack.Navigator>
       </NavigationContainer>
-      
+
     );
   }
 }
 const styles = StyleSheet.create({
   view: {
-    marginTop:50
+    marginTop: 50
   },
   container: {
     flex: 1,

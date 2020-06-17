@@ -6,11 +6,11 @@ import CardExample from './Comp'
 let Anot = [1, 2, 3, 4, 5, 6, 7, 8, 9];
 export default function UpperMenu({navigation}) {
     let abc = Anot.map((item, index) => {
-        return <Button style={{ margin: 10, borderRadius: 10 }} ><Text>{item}</Text></Button>;
+        return <Button key={index} style={{ margin: 10, borderRadius: 10 }} ><Text key={index}>{item}</Text></Button>;
     });
     Anot = Anot.map((item, index) => {
         return (
-            <TouchableOpacity onPress={()=>navigation.navigate("Details",{pageId : item})}><CardExample key={index}/></TouchableOpacity>
+            <TouchableOpacity key={index} onPress={()=>navigation.navigate("Details",{pageId : item})}><CardExample key={index}/></TouchableOpacity>
         )
     })
     return (
