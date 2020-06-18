@@ -12,6 +12,8 @@ import { createStackNavigator } from '@react-navigation/stack'
 import Temp from './src/Temp'
 import MakeBoard from './src/MakeBoard'
 import Action from './src/Action'
+import Search from './src/Search'
+import Chat from './src/Chat'
 const Stack = createStackNavigator();
 
 class HomeScreen extends Component {
@@ -75,6 +77,8 @@ export default class App extends React.Component {
               <Text style={{ marginRight: 20 }}>등록</Text>
             )
           }} />
+          <Stack.Screen name="검색" component={Search} options={{ headerShown: false }} />
+          <Stack.Screen name="채팅" component={Chat} options={{ headerShown: false }} />
         </Stack.Navigator>
       </NavigationContainer>
 
@@ -83,7 +87,6 @@ export default class App extends React.Component {
 }
 const styles = StyleSheet.create({
   view: {
-    marginTop: 50
   },
   container: {
     flex: 1,

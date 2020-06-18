@@ -10,11 +10,11 @@ const FooterA =({navigation})=> {
             <Icon name="apps" />
             <Text>타임라인</Text>
           </Button>
-          <Button vertical>
+          <Button vertical onPress = {()=>navigation.navigate("검색")}>
             <Icon active name="search" />
             <Text>검색</Text>
           </Button>
-          <Button vertical>
+          <Button vertical onPress = {()=>navigation.navigate("채팅")}>
             <Icon name="chatboxes" />
             <Text>대화</Text>
           </Button>
