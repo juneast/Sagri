@@ -14,6 +14,7 @@ import MakeBoard from './src/MakeBoard'
 import Action from './src/Action'
 import Search from './src/Search'
 import Chat from './src/Chat'
+import Example from './src/Example'
 const Stack = createStackNavigator();
 
 class HomeScreen extends Component {
@@ -68,17 +69,17 @@ export default class App extends React.Component {
       <NavigationContainer>
         <Stack.Navigator initialRouteName="Home">
           <Stack.Screen name="Home" component={HomeScreen} options={{ headerShown: false }} />
-          <Stack.Screen name="Details" component={DetailsScreen} />
+          <Stack.Screen name="Details" component={DetailsScreen} options={{ gestureDirection:"horizontal"}} />
           <Stack.Screen name="글작성" component={MakeBoardScreen} options={{
             headerTitle: props => <Action />,
             headerTitleAlign: "center",
-            headerTintColor: '#000',
+            headerTintColor: '#000', 
             headerRight: props => (
               <Text style={{ marginRight: 20 }}>등록</Text>
             )
           }} />
           <Stack.Screen name="검색" component={Search} options={{ headerShown: false }} />
-          <Stack.Screen name="채팅" component={Chat} options={{ headerShown: false }} />
+          <Stack.Screen name="채팅" component={Example} options={{ headerShown: false }} />
         </Stack.Navigator>
       </NavigationContainer>
 
