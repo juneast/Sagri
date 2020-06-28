@@ -2,21 +2,20 @@ import React, { Component } from 'react';
 import { Image, View } from 'react-native';
 import { Container, Header, Content, Card, CardItem, Thumbnail, Text, Button, Icon, Left, Body, Right } from 'native-base';
 
-export default function CardImageExample(){
-
+export default function CardImageExample({title,content,author}){
 
     return (
           <Card styles={{flex:0}}>
             <CardItem>
               <Left>
                 <Body>
-                  <Text>제목</Text>
-                  <Text note>작성자</Text>
+                  <Text>{title}</Text>
+                  <Text note>{author}</Text>
                 </Body>
               </Left>
             </CardItem>
             <CardItem cardBody>
-            <Text>a</Text>
+            <Text>{content}</Text>
             </CardItem>
             <CardItem>
               <Left>
