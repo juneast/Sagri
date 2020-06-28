@@ -14,6 +14,8 @@ import MakeBoard from './src/MakeBoard'
 import Action from './src/Action'
 import Search from './src/Search'
 import Chat from './src/Chat'
+import axios from 'axios'
+import JoinScreen from './src/Join'
 const Stack = createStackNavigator();
 
 class HomeScreen extends Component {
@@ -35,19 +37,48 @@ function DetailsScreen({ route }) {
     <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}><Temp></Temp></View>
   );
 }
-function MakeBoardScreen({ route }) {
+function MakeBoardScreen({ route, navigation }) {
   return (
     <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
-      <MakeBoard />
+      <MakeBoard navigation = {navigation} />
     </View>
   );
 }
+
+const sendPost = async ()=>{
+  try{
+      const data = await axios({ 
+          url: "http://54.180.167.12:5000/api/post",
+          method:'get',
+          headers : {
+              'x-access-token': 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI1ZWQzOWRkYTI5MWVmMTU3NzBkZWFkNDUiLCJhZG1pbiI6dHJ1ZSwiaWF0IjoxNTkzMDUzMTgyLCJleHAiOjE1OTM2NTc5ODIsImlzcyI6IkxESiIsInN1YiI6InVzZXJJbmZvIn0.Ojtc_As3BA3HO1_cdKLTh7svEW9BntliR611pbdg7Uc',
+          }
+      })
+  }catch(err){
+      console.log(err);
+  }
+}
+
 export default class App extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
       isReady: false,
+      page: 1,
+      data: []
     };
+  }
+
+  _getData = () => {
+    const url = 'http://54.180.167.12:5000/api/post' + this.state.page;
+    fetch(url)
+      .then(r => r.json())
+      .then(data => {
+        this.setState({ 
+          data: this.state.data.concat(data), // 기존 data에 추가.
+          page: this.state.page + 1
+        })
+      });
   }
 
   async componentDidMount() {
