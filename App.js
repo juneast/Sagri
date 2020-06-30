@@ -3,6 +3,7 @@ import { AppLoading } from 'expo';
 import * as Font from 'expo-font';
 import { Ionicons } from '@expo/vector-icons';
 import LoginNavigator from './src/navigators/LoginNavigator'
+import './global'
 
 export default class App extends React.Component {
   constructor(props) {

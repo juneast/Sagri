@@ -37,10 +37,10 @@ export default class UpperMenu extends React.Component {
     sendPost = async ()=>{
         try{
             const data_ = await axios({ 
-                url: "http://54.180.167.12:5000/api/post",
+                url: global.API_URI+"/api/post",
                 method:'get',
                 headers : {
-                    'x-access-token': 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI1ZWQzOWRkYTI5MWVmMTU3NzBkZWFkNDUiLCJhZG1pbiI6dHJ1ZSwiaWF0IjoxNTkzMDUzMTgyLCJleHAiOjE1OTM2NTc5ODIsImlzcyI6IkxESiIsInN1YiI6InVzZXJJbmZvIn0.Ojtc_As3BA3HO1_cdKLTh7svEW9BntliR611pbdg7Uc',
+                    'x-access-token': global.token
                 }
             })
             //console.log(data_.body)

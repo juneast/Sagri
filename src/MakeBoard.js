@@ -24,10 +24,10 @@ const MakeBoard = ({navigation}) => {
     const sendPost = async ()=>{
         try{
             const response = await axios({ 
-                url: "http://54.180.167.12:5000/api/post",
+                url: global.API_URI+"/api/post",
                 method:'post',
                 headers : {
-                    'x-access-token': 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI1ZWQzOWRkYTI5MWVmMTU3NzBkZWFkNDUiLCJhZG1pbiI6dHJ1ZSwiaWF0IjoxNTkzMDUzMTgyLCJleHAiOjE1OTM2NTc5ODIsImlzcyI6IkxESiIsInN1YiI6InVzZXJJbmZvIn0.Ojtc_As3BA3HO1_cdKLTh7svEW9BntliR611pbdg7Uc',
+                    'x-access-token': 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI1ZWZhOGZiMjZiODE3MTM1MTk3YTIxNTMiLCJpcF9hZGRyIjoiOjpmZmZmOjEyNS4xMjguMjQzLjIzNiIsInRpbWVzdGFtcCI6MTU5MzQ5OTczNjM4MywiYWRtaW4iOmZhbHNlLCJpYXQiOjE1OTM0OTk3MzgsImV4cCI6MTU5NDEwNDUzOCwiaXNzIjoiTERKIiwic3ViIjoidXNlckluZm8ifQ.unfjmRTqhfs2J1OPy5oUJw8sicr9mzCqww-qfYkBnkk',
                 },
                 data : {
                     title,
