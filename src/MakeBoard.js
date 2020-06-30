@@ -27,7 +27,7 @@ const MakeBoard = ({navigation}) => {
                 url: global.API_URI+"/api/post",
                 method:'post',
                 headers : {
-                    'x-access-token': 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI1ZWZhOGZiMjZiODE3MTM1MTk3YTIxNTMiLCJpcF9hZGRyIjoiOjpmZmZmOjEyNS4xMjguMjQzLjIzNiIsInRpbWVzdGFtcCI6MTU5MzQ5OTczNjM4MywiYWRtaW4iOmZhbHNlLCJpYXQiOjE1OTM0OTk3MzgsImV4cCI6MTU5NDEwNDUzOCwiaXNzIjoiTERKIiwic3ViIjoidXNlckluZm8ifQ.unfjmRTqhfs2J1OPy5oUJw8sicr9mzCqww-qfYkBnkk',
+                    'x-access-token': global.token
                 },
                 data : {
                     title,
