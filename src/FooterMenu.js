@@ -2,7 +2,7 @@ import React from 'react';
 import { View } from 'react-native';
 import { Container, Header, Content, Footer, FooterTab, Button, Icon, Text } from 'native-base';
 
-const FooterA =({navigation})=> {
+const FooterMenu =({navigation})=> {
     return (
       <Footer>
         <FooterTab>
@@ -31,4 +31,4 @@ const FooterA =({navigation})=> {
     );
   }
 
-  export default FooterA;
+  export default FooterMenu;

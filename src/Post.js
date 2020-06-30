@@ -4,7 +4,7 @@ import {Text,Icon} from 'native-base';
 import Tag from './Tag'
 import Comment from './Comment'
 
-export default class Temp extends Component {
+export default class Post extends Component {
     render() {
         return (
             <ScrollView>

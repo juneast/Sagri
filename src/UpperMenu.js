@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import {ScrollView ,TouchableOpacity} from 'react-native';
-import { Container, Tab, Tabs, ScrollableTab, Text, Button } from 'native-base';
-import CardExample from './Comp'
+import { Container, Tab, Tabs, ScrollableTab, Text, Button, Spinner } from 'native-base';
+import PostCard from './PostCard'
 import HomeTab from './HomeTab'
 import SearchTab from './SearchTab'
 import axios from 'axios'
@@ -30,7 +30,8 @@ export default class UpperMenu extends React.Component {
 
     state = {
       data: [],
-      page: 1 
+      page: 1,
+      isLoading : true,
     }
   
     sendPost = async ()=>{
@@ -46,7 +47,8 @@ export default class UpperMenu extends React.Component {
             //console.log(data_.data) // data에만 들어있었다
             this.setState({ 
                 data: this.state.data.concat(data_.data),
-                page: this.state.page + 1
+                page: this.state.page + 1,
+                isLoading : false
               });
             
         }catch(err){
@@ -65,7 +67,7 @@ export default class UpperMenu extends React.Component {
 
   
     _renderItem = ({item,index}) => (
-     <TouchableOpacity key={index} ><CardExample key={index} title = {item.title} content = {item.content} author ={item.author.userId}/></TouchableOpacity>
+     <TouchableOpacity key={index} ><PostCard key={index} title = {item.title} content = {item.content} author ={item.author.userId}/></TouchableOpacity>
       /*<View style={{borderBottomWidth:1, marginTop: 20, height:200}}>
         <Text>{item.title}</Text>
       </View>*/
@@ -73,14 +75,18 @@ export default class UpperMenu extends React.Component {
     );
   
     render() {
+        const {isLoading} = this.state;
+        if(isLoading){
+            return <View style ={{height:"100%", alignItems:"center", justifyContent:"center"}}><Spinner/></View>
+        }
         return (
             
           <FlatList 
             data={this.state.data}
             renderItem={this._renderItem}
             keyExtractor={(item, index) => item._id}
-            onEndReached={this._handleLoadMore}
-            onEndReachedThreshold={0.1}
+            //onEndReached={this._handleLoadMore}
+            //onEndReachedThreshold={0.1}
           />
         );
       }
