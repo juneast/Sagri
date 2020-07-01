@@ -50,7 +50,6 @@ export default class UpperMenu extends React.Component {
                 page: this.state.page + 1,
                 isLoading: false
             });
-
         } catch (err) {
             console.log(err);
         }
@@ -67,13 +66,9 @@ export default class UpperMenu extends React.Component {
 
 
     _renderItem = ({ item, index }) => (
-        <TouchableOpacity key={index} onPress={()=>this.props.navigation.navigate('Details')}>
+        <TouchableOpacity key={index} onPress={()=>this.props.navigation.navigate({ name: 'Details', params: {item} })}>
             <PostCard key={index} title={item.title} content={item.content} author={item.author.userId} />
         </TouchableOpacity>
-        /*<View style={{borderBottomWidth:1, marginTop: 20, height:200}}>
-          <Text>{item.title}</Text>
-        </View>*/
-        //onPress={()=>navigation.navigate("Details",{pageId : item})}
     );
 
     render() {

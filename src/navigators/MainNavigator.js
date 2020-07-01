@@ -27,11 +27,6 @@ class HomeScreen extends Component {
   }
 }
 
-function DetailsScreen({ route }) {
-  return (
-    <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}><Post></Post></View>
-  );
-}
 function MakeBoardScreen({ route, navigation }) {
   return (
     <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
@@ -45,7 +40,7 @@ const MainNavigator = ()=> {
     return (
         <Stack.Navigator initialRouteName="Home">
           <Stack.Screen name="Home" component={HomeScreen} options={{ headerShown: false }} />
-          <Stack.Screen name="Details" component={DetailsScreen} />
+          <Stack.Screen name="Details" component={Post} />
           <Stack.Screen name="글작성" component={MakeBoardScreen} options={{
             headerTitle: props => <Action />,
             headerTitleAlign: "center",

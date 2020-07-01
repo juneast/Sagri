@@ -40,11 +40,13 @@ const styles = StyleSheet.create({
     }
 })
 
-const Comment = ({tagName})=> {
+const Comment = ({info})=> {
+    const comment = info;
+    console.log(info)
     return (
         <View style = {styles.root}>
-            <Text style = {styles.up}>소속 · 작성자</Text>
-            <Text style =  {styles.middle}>댓글내용댓글내용댓글내용댓글내용댓글내용댓글내용댓글내용댓글내용댓글내용댓글내용댓글내용</Text>
+            <Text style = {styles.up}>{comment.author.userId}</Text>
+            <Text style =  {styles.middle}>{comment.content}</Text>
             <View style = {styles.down}>
                 <View style = {styles.downLeft}>
                     <Text style={styles.downLeftText}>1분</Text>
