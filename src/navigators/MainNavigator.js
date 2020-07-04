@@ -10,6 +10,7 @@ import Post from '../Post'
 import MakeBoard from '../MakeBoard'
 import Action from '../Action'
 import Search from '../Search'
+import ChattingRoomList from '../ChatRoomList'
 import Chat from '../Chat'
 
 const Stack = createStackNavigator();
@@ -50,7 +51,8 @@ const MainNavigator = ()=> {
             )
           }} />
           <Stack.Screen name="검색" component={Search} options={{ headerShown: false }} />
-          <Stack.Screen name="채팅" component={Chat} options={{ headerShown: false }} />
+          <Stack.Screen name="채팅" component={ChattingRoomList} options={{ headerShown: false }} />
+          <Stack.Screen name="Chat" component={Chat} options={{ headerShown: false }} />
         </Stack.Navigator>
     );
 }
