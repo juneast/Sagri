@@ -6,6 +6,7 @@ import LoginScreen from '../screens/LoginScreen'
 import ForgetScreen from '../screens/ForgetScreen'
 import SignUpScreen from '../screens/SignUpScreen'
 import MainNavigator from './MainNavigator'
+
 const Stack = createStackNavigator();
 
 const LoginNavigator = ()=> {
