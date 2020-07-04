@@ -32,6 +32,7 @@ export default class UpperMenu extends React.Component {
         data: [],
         page: 1,
         isLoading: true,
+        refreshing: false
     }
 
     sendPost = async () => {
@@ -46,9 +47,10 @@ export default class UpperMenu extends React.Component {
             //console.log(data_.body)
             //console.log(data_.data) // data에만 들어있었다
             this.setState({
-                data: this.state.data.concat(data_.data),
-                page: this.state.page + 1,
-                isLoading: false
+                data: this.state.refreshing?data_:this.state.data.concat(data_.data),
+                page: this.state.refreshing?1:this.state.page + 1,
+                isLoading: false,
+                refreshing: false
             });
         } catch (err) {
             console.log(err);
@@ -58,6 +60,10 @@ export default class UpperMenu extends React.Component {
     _handleLoadMore = () => {
         this.sendPost();
     }
+
+    _handleRefresh = () => {
+        this.sendPost();
+      }
 
     componentDidMount() {
         this.sendPost();
@@ -82,6 +88,8 @@ export default class UpperMenu extends React.Component {
                 data={this.state.data}
                 renderItem={this._renderItem}
                 keyExtractor={(item, index) => item._id}
+                refreshing={this.state.refreshing}
+                onRefresh={this._handleRefresh}
             //onEndReached={this._handleLoadMore}
             //onEndReachedThreshold={0.1}
             />
