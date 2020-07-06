@@ -1,7 +1,7 @@
 import React from 'react';
 import { View, Text, StyleSheet } from 'react-native';
 import { Icon } from 'native-base'
-
+import computeTime from './modules/computeTime'
 const styles = StyleSheet.create({
     root : {
         padding : 15,
@@ -49,7 +49,7 @@ const Comment = ({info})=> {
             <Text style =  {styles.middle}>{comment.content}</Text>
             <View style = {styles.down}>
                 <View style = {styles.downLeft}>
-                    <Text style={styles.downLeftText}>1분</Text>
+                    <Text style={styles.downLeftText}>{computeTime(comment.createTime)}</Text>
                     <Text style={styles.downLeftDivider}>·</Text>
                     <View style = {styles.downLeft}>
                         <Icon name="thumbs-up" style={styles.downLeftIcon}/>

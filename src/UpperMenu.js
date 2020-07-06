@@ -27,12 +27,19 @@ export default class UpperMenu extends React.Component({navigation}){
 }*/
 
 export default class UpperMenu extends React.Component {
-
-    state = {
-        data: [],
-        page: 1,
-        isLoading: true,
-        refreshing: false
+    constructor(props) {
+        super(props);
+        this.props.navigation.addListener('focus', () => {
+            this.setState({ isLoading: true, refreshing: true })
+            console.log("focused");
+            this.sendPost()
+        });
+        this.state = {
+            data: [],
+            page: 1,
+            isLoading: true,
+            refreshing: false
+        }
     }
 
     sendPost = async () => {
@@ -47,8 +54,8 @@ export default class UpperMenu extends React.Component {
             //console.log(data_.body)
             //console.log(data_.data) // data에만 들어있었다
             this.setState({
-                data: this.state.refreshing?data_:this.state.data.concat(data_.data),
-                page: this.state.refreshing?1:this.state.page + 1,
+                data: this.state.refreshing ? data_.data : this.state.data.concat(data_.data),
+                page: this.state.refreshing ? 1 : this.state.page + 1,
                 isLoading: false,
                 refreshing: false
             });
@@ -63,15 +70,15 @@ export default class UpperMenu extends React.Component {
 
     _handleRefresh = () => {
         this.sendPost();
-      }
+    }
 
     componentDidMount() {
         this.sendPost();
     }
 
     _renderItem = ({ item, index }) => (
-        <TouchableOpacity key={index} onPress={()=>this.props.navigation.navigate({ name: 'Details', params: {item} })}>
-            <PostCard key={index} title={item.title} content={item.content} author={item.author.userId} />
+        <TouchableOpacity key={index} onPress={() => this.props.navigation.navigate({ name: 'Details', params: { item } })}>
+            <PostCard key={index} post={item} />
         </TouchableOpacity>
     );
 
@@ -86,8 +93,9 @@ export default class UpperMenu extends React.Component {
                 data={this.state.data}
                 renderItem={this._renderItem}
                 keyExtractor={(item, index) => item._id}
-                //refreshing={this.state.refreshing}
-                //onRefresh={this._handleRefresh}
+                extraData={this.state.refreshing}
+            //refreshing={this.state.refreshing}
+            //onRefresh={this._handleRefresh}
             //onEndReached={this._handleLoadMore}
             //onEndReachedThreshold={0.1}
             />

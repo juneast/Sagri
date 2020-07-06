@@ -4,12 +4,14 @@ import { Text, Icon, Spinner, Footer } from 'native-base';
 import Tag from './Tag'
 import Comment from './Comment'
 import axios from 'axios'
-
+import computeTime from './modules/computeTime'
 const Post = ({ route, navigation }) => {
     const post = route.params.item;
     const [comments, setComments] = useState([]);
     const [isLoading, setIsLoading] = useState(false);
     const [content, setContent] = useState("");
+    const [like, setLike] = useState(route.params.item.likes);
+
     const getCommentRequest = async () => {
         try {
             const response = await axios({
@@ -51,6 +53,38 @@ const Post = ({ route, navigation }) => {
             console.log(err);
         }
     }
+    const postLikeRequest = async () => {
+        try {
+            const response = await axios({
+                url: global.API_URI + "/api/post/like?postid=" + post.postid,
+                method: 'get',
+            })
+            if (response.status === 200) {
+                alert("좋아요완료")
+                setLike(true);
+            }
+
+        } catch (err) {
+            alert("좋아요실패")
+            console.log(err);
+        }
+    }
+    const postUnlikeRequest = async () => {
+        try {
+            const response = await axios({
+                url: global.API_URI + "/api/post/unlike?postid=" + post.postid,
+                method: 'get',
+            })
+            if (response.status === 200) {
+                alert("좋아요취소완료")
+                setLike(false);
+            }
+
+        } catch (err) {
+            alert("좋아요취소실패")
+            console.log(err);
+        }
+    }
     useEffect(() => {
         if (!isLoading) {
             getCommentRequest();
@@ -72,11 +106,15 @@ const Post = ({ route, navigation }) => {
                         <Tag tagName="Sagri" />
                         <Text style={styles.title}>{post.title}</Text>
                         <Text>{post.author.userId}</Text>
-                        <Text>15분</Text>
+                        <Text>{computeTime(post.createTime)}</Text>
                         <View style={styles.divider}></View>
                         <Text>{post.content}</Text>
                         <View style={styles.otherInfo}>
-                            <Icon active name="thumbs-up" style={{ color: "#ccc", fontSize: 25 }} />
+                            <TouchableOpacity onPress={()=>{
+                                like ? postUnlikeRequest() : postLikeRequest();
+                            }}>
+                                <Icon active name="thumbs-up" style={{ color: like ? "blue" : "#ccc",fontSize: 25 }} />
+                            </TouchableOpacity>
                             <View style={styles.dividerCol}></View>
                             <Icon name="chatboxes" style={{ color: "#ccc", fontSize: 25 }} />
                             <View style={styles.dividerCol}></View>
