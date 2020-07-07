@@ -73,7 +73,7 @@ export default class UpperMenu extends React.Component {
     }
 
     componentDidMount() {
-        this.sendPost();
+        //this.sendPost();
     }
 
     _renderItem = ({ item, index }) => (
@@ -92,7 +92,7 @@ export default class UpperMenu extends React.Component {
             <FlatList
                 data={this.state.data}
                 renderItem={this._renderItem}
-                keyExtractor={(item, index) => item._id}
+                keyExtractor={(item, index) => index.toString()}
                 extraData={this.state.refreshing}
             //refreshing={this.state.refreshing}
             //onRefresh={this._handleRefresh}

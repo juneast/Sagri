@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { View, StyleSheet, Button, ScrollView, FlatList, TextInput, TouchableOpacity } from 'react-native'
+import { View, StyleSheet, Button, ScrollView, FlatList, TextInput, TouchableOpacity} from 'react-native'
 import { Text, Icon, Spinner, Footer } from 'native-base';
 import Tag from './Tag'
 import Comment from './Comment'
@@ -93,7 +93,7 @@ const Post = ({ route, navigation }) => {
     });
 
     const _renderItem = ({ item, index }) => (
-        <Comment info={item} />
+        <Comment key={index} info={item} />
     );
 
     return (
@@ -113,7 +113,7 @@ const Post = ({ route, navigation }) => {
                             <TouchableOpacity onPress={()=>{
                                 like ? postUnlikeRequest() : postLikeRequest();
                             }}>
-                                <Icon active name="thumbs-up" style={{ color: like ? "blue" : "#ccc",fontSize: 25 }} />
+                                <Icon active name="thumbs-up" style={{ color: like ? "skyblue" : "#ccc",fontSize: 25 }} />
                             </TouchableOpacity>
                             <View style={styles.dividerCol}></View>
                             <Icon name="chatboxes" style={{ color: "#ccc", fontSize: 25 }} />
@@ -124,11 +124,12 @@ const Post = ({ route, navigation }) => {
                     <View style={styles.sagri}><Text style={styles.sagriText}>SAGRI</Text></View>
                     <View style={{ ...styles.sagri, height: "auto" }}>
                         <FlatList
+                            vertical
                             style={{ width: "100%" }}
                             data={comments}
                             renderItem={_renderItem}
-                            keyExtractor={(item, index) => item._id}
-                        />
+                            keyExtractor={(item, index) => index.toString()}
+                            />
                     </View>
                 </ScrollView>
                 <View style={styles.textInput}>

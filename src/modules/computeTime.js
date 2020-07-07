@@ -1,11 +1,11 @@
 export default function computeTime(time){
     var date =new Date(time)
-    var now = new Date();
+    var now = new Date;
     var temp = now-date;
-    if(Math.floor(temp/1000) ===0){
+    if(Math.floor(temp/(1000*60)) ===0){
         return "1분 이내"
     } else if(Math.floor(temp/(1000*3600))===0) {
-        return `${Math.floor(temp/1000)}분전`
+        return `${Math.floor(temp/(1000*60))}분전`
     } else if(Math.floor(temp/(1000*3600*24))===0) {
         return `${Math.floor(temp/(1000*3600))}시간전`
     } else if(Math.floor(temp/(1000*3600*24*7))===0) {
