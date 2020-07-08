@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
-import { ScrollView, TouchableOpacity } from 'react-native';
-import { Container, Tab, Tabs, ScrollableTab, Text, Button, Spinner } from 'native-base';
+import { ScrollView, TouchableOpacity, StyleSheet } from 'react-native';
+import { Container, Tab, Tabs, ScrollableTab, Text, Button, Spinner ,Header} from 'native-base';
 import PostCard from './PostCard'
 import HomeTab from './HomeTab'
 import SearchTab from './SearchTab'
@@ -88,12 +88,13 @@ export default class UpperMenu extends React.Component {
             return <View style={{ height: "100%", alignItems: "center", justifyContent: "center" }}><Spinner /></View>
         }
         return (
-
             <FlatList
+                style={{backgroundColor:"#eee"}}
                 data={this.state.data}
                 renderItem={this._renderItem}
                 keyExtractor={(item, index) => index.toString()}
                 extraData={this.state.refreshing}
+                ListHeaderComponent={<Header style={{backgroundColor:"#fff", height:40, borderBottomWidth:StyleSheet.hairlineWidth}}/>}
             //refreshing={this.state.refreshing}
             //onRefresh={this._handleRefresh}
             //onEndReached={this._handleLoadMore}

@@ -59,7 +59,7 @@ const MakeBoard = ({navigation}) => {
                 onChangeText={text => setContent(text)}
                 value={content}
             />
-            <Button title="버튼" onPress = {()=>sendPost()}/>
+            <Button disabled={title===""||content===""?true:false} title="버튼" onPress = {()=>sendPost()}/>
         </View>
     );
 }

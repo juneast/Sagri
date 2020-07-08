@@ -51,8 +51,7 @@ const styles = StyleSheet.create({
 const PostCard = ({ post }) => {
   console.log(post);
   return (
-    <Card styles={{ flex: 0 }}>
-
+    <View style={{marginBottom:5, backgroundColor:"#fff"}}>
       <View style={styles.container}>
         <Tag tagName="아무거나" />
         <Text>{post.title}</Text>
@@ -67,11 +66,11 @@ const PostCard = ({ post }) => {
           </TouchableOpacity>
           <TouchableOpacity style={styles.touchable}>
             <Icon style={{...styles.icon, color:post.likes?"skyblue":"#ccc"}} name="thumbs-up" />
-            <Text style={{...styles.touchableText, color:post.likes?"skyblue":"#ccc"}}>{post.views}</Text>
+            <Text style={{...styles.touchableText, color:post.likes?"skyblue":"#ccc"}}>{post.likeCount}</Text>
           </TouchableOpacity>
           <TouchableOpacity style={styles.touchable}>
             <Icon style={styles.icon}  name="chatbubbles" />
-            <Text style={styles.touchableText}>{post.views}</Text>
+            <Text style={styles.touchableText}>{post.comments}</Text>
           </TouchableOpacity>
         </View>
         <View>
@@ -79,7 +78,7 @@ const PostCard = ({ post }) => {
         </View>
 
       </View>
-    </Card>
+      </View>
   );
 
 }

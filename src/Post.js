@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { View, StyleSheet, Button, ScrollView, FlatList, TextInput, TouchableOpacity} from 'react-native'
-import { Text, Icon, Spinner, Footer } from 'native-base';
+import { Text, Icon, Spinner, Footer, Toast, Root } from 'native-base';
 import Tag from './Tag'
 import Comment from './Comment'
 import axios from 'axios'
@@ -14,12 +14,14 @@ const Post = ({ route, navigation }) => {
 
     const getCommentRequest = async () => {
         try {
+            axios({
+                url: global.API_URI + "/api/post/" + post.postid,
+                method: 'get',
+            })
             const response = await axios({
                 url: global.API_URI + "/api/comment/" + post.postid,
                 method: 'get',
-                headers: {
-                    'x-access-token': global.token
-                }
+
             })
             if (response.status === 200) {
                 setComments(response.data);
@@ -44,12 +46,23 @@ const Post = ({ route, navigation }) => {
                 }
             })
             if (response.status === 200) {
-                alert("댓글이 등록되었습니다")
+                Toast.show({
+                    text: "댓글이 등록됐습니다.",
+                    position: "bottom",
+                    style: {width:"70%",bottom : '30%',backgroundColor:"rgba(0,0,0,0.5)",borderRadius:25, alignSelf:"center"},
+                    textStyle:{textAlign:"center"}
+                })
                 getCommentRequest();
             }
-
+            
         } catch (err) {
-            alert("댓글등록실패")
+            Toast.show({
+                text: "댓글 등록에 실패했습니다",
+                position: "bottom",
+                type:"danger",
+                style: {width:"70%",bottom : '30%',borderRadius:25, alignSelf:"center"},
+                textStyle:{textAlign:"center"}
+            })
             console.log(err);
         }
     }
@@ -60,7 +73,6 @@ const Post = ({ route, navigation }) => {
                 method: 'get',
             })
             if (response.status === 200) {
-                alert("좋아요완료")
                 setLike(true);
             }
 
@@ -76,7 +88,7 @@ const Post = ({ route, navigation }) => {
                 method: 'get',
             })
             if (response.status === 200) {
-                alert("좋아요취소완료")
+                
                 setLike(false);
             }
 
@@ -89,17 +101,16 @@ const Post = ({ route, navigation }) => {
         if (!isLoading) {
             getCommentRequest();
         }
-
     });
 
-    const _renderItem = ({ item, index }) => (
-        <Comment key={index} info={item} />
-    );
+ 
+        
 
     return (
         !isLoading ?
             <View style={{ height: "100%", alignItems: "center", justifyContent: "center" }}><Spinner /></View>
             :
+            <Root>
             <View style={{ height: "100%" }}>
                 <ScrollView style={{marginBottom:50}}>
                     <View style={styles.view}>
@@ -111,6 +122,7 @@ const Post = ({ route, navigation }) => {
                         <Text>{post.content}</Text>
                         <View style={styles.otherInfo}>
                             <TouchableOpacity onPress={()=>{
+                                
                                 like ? postUnlikeRequest() : postLikeRequest();
                             }}>
                                 <Icon active name="thumbs-up" style={{ color: like ? "skyblue" : "#ccc",fontSize: 25 }} />
@@ -123,27 +135,22 @@ const Post = ({ route, navigation }) => {
                     </View>
                     <View style={styles.sagri}><Text style={styles.sagriText}>SAGRI</Text></View>
                     <View style={{ ...styles.sagri, height: "auto" }}>
-                        <FlatList
-                            vertical
-                            style={{ width: "100%" }}
-                            data={comments}
-                            renderItem={_renderItem}
-                            keyExtractor={(item, index) => index.toString()}
-                            />
+                        {comments.map((item,index)=> <View key={index} style ={{width:"100%"}}><Comment key={index} info={item} /></View>)}
                     </View>
                 </ScrollView>
                 <View style={styles.textInput}>
                     <TextInput value={content} style={{ width: "90%" }} placeholder="댓글을 남겨주세요." onChangeText={(text) => setContent(text)} />
-                    <TouchableOpacity onPress={() => {
+                    <TouchableOpacity disabled={content===""? true : false} onPress={() => {
                         postCommentRequest();
                         setContent("");
                     }}>
-                        <Text style={{ color: "red", fontSize: 13 }}>등록</Text>
+                        <Text style={{ color: content===""? "#ccc" : "red", fontSize: 13 }}>등록</Text>
                     </TouchableOpacity>
                 </View>
 
 
             </View>
+            </Root>
 
     );
 }
