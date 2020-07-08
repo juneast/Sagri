@@ -38,7 +38,8 @@ export default class UpperMenu extends React.Component {
             data: [],
             page: 1,
             isLoading: true,
-            refreshing: false
+            refreshing: false,
+            toTopButtonAvailable : false
         }
     }
 
@@ -81,16 +82,28 @@ export default class UpperMenu extends React.Component {
             <PostCard key={index} post={item} />
         </TouchableOpacity>
     );
-
+    handleScroll = (item) =>{
+        if(item.nativeEvent.contentOffset.y!==0 && !this.state.toTopButtonAvailable){
+            this.setState({toTopButtonAvailable:true})
+        }
+        if(item.nativeEvent.contentOffset.y===0){
+            this.setState({toTopButtonAvailable:false})
+        }
+    }
     render() {
         const { isLoading } = this.state;
         if (isLoading) {
             return <View style={{ height: "100%", alignItems: "center", justifyContent: "center" }}><Spinner /></View>
         }
         return (
+            <Container>
+
+            
             <FlatList
+                ref={(ref) => { this.flatListRef = ref; }}
                 style={{backgroundColor:"#eee"}}
                 data={this.state.data}
+                onScroll={this.handleScroll}
                 renderItem={this._renderItem}
                 keyExtractor={(item, index) => index.toString()}
                 extraData={this.state.refreshing}
@@ -100,6 +113,17 @@ export default class UpperMenu extends React.Component {
             //onEndReached={this._handleLoadMore}
             //onEndReachedThreshold={0.1}
             />
+            {
+                this.state.toTopButtonAvailable ? 
+                    <TouchableOpacity 
+                        onPress={()=>this.flatListRef.scrollToOffset({ animated: true, offset: 0 }) }
+                        style={{position:"absolute", bottom:20,right:20, backgroundColor:"rgba(0,0,0,0.2)", padding:5,borderRadius:3}}>
+                        <Text>Top</Text>
+                    </TouchableOpacity>
+                    :
+                    null                
+            }
+            </Container>
         );
     }
 }
