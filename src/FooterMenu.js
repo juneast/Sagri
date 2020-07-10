@@ -2,7 +2,7 @@ import React from 'react';
 import { View } from 'react-native';
 import { Container, Header, Content, Footer, FooterTab, Button, Icon, Text } from 'native-base';
 
-const FooterMenu =({navigation})=> {
+const FooterMenu =({onMake, navigation})=> {
     return (
       <Footer>
         <FooterTab>
@@ -22,7 +22,7 @@ const FooterMenu =({navigation})=> {
             <Icon name="person" />
             <Text>내정보</Text>
           </Button>
-          <Button vertical onPress = {()=>navigation.navigate("글작성")}>
+          <Button vertical onPress = {()=>navigation.navigate({ name: '글작성', params: { onMake } })}>
             <Icon name="create" />
             <Text>글작성</Text>
           </Button>

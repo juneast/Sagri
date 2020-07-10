@@ -49,7 +49,6 @@ const styles = StyleSheet.create({
 })
 
 const PostCard = ({ post,handleTagClick}) => {
-  console.log(post);
   return (
     <View style={{marginBottom:5, backgroundColor:"#fff"}}>
       <View style={styles.container}>

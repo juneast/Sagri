@@ -1,7 +1,6 @@
 import React, { Component } from 'react';
 import { Container, Text } from 'native-base';
 import UpperMenu from '../UpperMenu'
-import FooterMenu from '../FooterMenu'
 import { View, StyleSheet, Button } from 'react-native'
 
 import { NavigationContainer } from '@react-navigation/native';
@@ -15,34 +14,12 @@ import Chat from '../Chat'
 
 const Stack = createStackNavigator();
 
-class HomeScreen extends Component {
-
-  render() {
-    return (
-      <Container style={styles.view}>
-        <UpperMenu route = {this.props.route} navigation={this.props.navigation} />
-        <FooterMenu navigation={this.props.navigation} />
-      </Container>
-
-    );
-  }
-}
-
-function MakeBoardScreen({ route, navigation }) {
-  return (
-    <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
-      <MakeBoard navigation = {navigation} />
-    </View>
-  );
-}
-
-
 const MainNavigator = ()=> {
     return (
         <Stack.Navigator initialRouteName="Home">
-          <Stack.Screen name="Home" component={HomeScreen} options={{ headerShown: false }} />
+          <Stack.Screen name="Home" component={UpperMenu} options={{ headerShown: false }} />
           <Stack.Screen name="Details" component={Post} />
-          <Stack.Screen name="글작성" component={MakeBoardScreen} options={{ headerShown:false
+          <Stack.Screen name="글작성" component={MakeBoard} options={{ headerShown:false
             // headerTitle: props => <Action />,
             // headerTitleAlign: "center",
             // headerTintColor: '#000',

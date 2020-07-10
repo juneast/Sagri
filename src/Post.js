@@ -52,6 +52,7 @@ const Post = ({ route, navigation}) => {
                     style: {width:"70%",bottom : '30%',backgroundColor:"rgba(0,0,0,0.5)",borderRadius:25, alignSelf:"center"},
                     textStyle:{textAlign:"center"}
                 })
+                route.params.handlePostChange(post.postid)
                 getCommentRequest();
             }
             
@@ -73,6 +74,7 @@ const Post = ({ route, navigation}) => {
                 method: 'get',
             })
             if (response.status === 200) {
+                route.params.handlePostChange(post.postid)
                 setLike(true);
             }
 
@@ -88,7 +90,7 @@ const Post = ({ route, navigation}) => {
                 method: 'get',
             })
             if (response.status === 200) {
-                
+                route.params.handlePostChange(post.postid)
                 setLike(false);
             }
 
@@ -122,10 +124,11 @@ const Post = ({ route, navigation}) => {
                         <Text>{post.content}</Text>
                         <View style={styles.otherInfo}>
                             <TouchableOpacity onPress={()=>{
-                                
-                                like ? postUnlikeRequest() : postLikeRequest();
-                            }}>
-                                <Icon active name="thumbs-up" style={{ color: like ? "skyblue" : "#ccc",fontSize: 25 }} />
+                                    like ? postUnlikeRequest() : postLikeRequest();
+                                }}
+                                style = {{flexDirection:"row"}}
+                                >
+                                <Icon active name="thumbs-up" style={{ color: like ? "skyblue" : "#ccc",fontSize: 25}} />
                             </TouchableOpacity>
                             <View style={styles.dividerCol}></View>
                             <Icon name="chatboxes" style={{ color: "#ccc", fontSize: 25 }} />

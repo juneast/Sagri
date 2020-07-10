@@ -4,7 +4,8 @@ import { View, Text, StyleSheet, TouchableOpacity } from 'react-native';
 const styles = StyleSheet.create({
     container: {
         flexDirection: "row",
-        flexWrap: "wrap"
+        flexWrap: "wrap",
+        alignSelf:'baseline',
     },
     tag: {
         fontSize: 12,

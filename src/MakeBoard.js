@@ -31,7 +31,7 @@ const styles = StyleSheet.create({
         elevation: 3,
     }
 })
-const MakeBoard = ({ navigation }) => {
+const MakeBoard = ({ route, navigation }) => {
     const [title, setTitle] = React.useState('');
     const [content, setContent] = React.useState('');
     const [tag, setTag] = React.useState('');
@@ -51,7 +51,7 @@ const MakeBoard = ({ navigation }) => {
                 }
             })
             if (response.status === 200) {
-                alert("성공")
+                route.params.onMake();
                 navigation.goBack(null);
             } else {
                 alert("실패")
