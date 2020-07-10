@@ -20,7 +20,7 @@ class HomeScreen extends Component {
   render() {
     return (
       <Container style={styles.view}>
-        <UpperMenu navigation={this.props.navigation} />
+        <UpperMenu route = {this.props.route} navigation={this.props.navigation} />
         <FooterMenu navigation={this.props.navigation} />
       </Container>
 
@@ -42,13 +42,13 @@ const MainNavigator = ()=> {
         <Stack.Navigator initialRouteName="Home">
           <Stack.Screen name="Home" component={HomeScreen} options={{ headerShown: false }} />
           <Stack.Screen name="Details" component={Post} />
-          <Stack.Screen name="글작성" component={MakeBoardScreen} options={{
-            headerTitle: props => <Action />,
-            headerTitleAlign: "center",
-            headerTintColor: '#000',
-            headerRight: props => (
-              <Text style={{ marginRight: 20 }}>등록</Text>
-            )
+          <Stack.Screen name="글작성" component={MakeBoardScreen} options={{ headerShown:false
+            // headerTitle: props => <Action />,
+            // headerTitleAlign: "center",
+            // headerTintColor: '#000',
+            // headerRight: props => (
+            //   <Text style={{ marginRight: 20 }}>등록</Text>
+            // )
           }} />
           <Stack.Screen name="검색" component={Search} options={{ headerShown: false }} />
           <Stack.Screen name="채팅" component={ChattingRoomList} options={{ headerShown: false }} />

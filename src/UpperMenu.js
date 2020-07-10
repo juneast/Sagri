@@ -29,11 +29,11 @@ export default class UpperMenu extends React.Component({navigation}){
 export default class UpperMenu extends React.Component {
     constructor(props) {
         super(props);
-        this.props.navigation.addListener('focus', () => {
-            this.setState({ isLoading: true, refreshing: true })
-            console.log("focused");
-            this.sendPost()
-        });
+        // this.props.navigation.addListener('focus', () => {
+        //     this.setState({ isLoading: true, refreshing: true })
+        //     console.log("focused");
+        //     this.sendPost()
+        // });
         this.state = {
             data: [],
             page: 1,
@@ -43,10 +43,17 @@ export default class UpperMenu extends React.Component {
         }
     }
 
-    sendPost = async () => {
+    sendPost = async (tagName) => {
         try {
-            const data_ = await axios({
-                url: global.API_URI + "/api/post",
+            let url=undefined;
+            if(this.props.route.params){
+                url = this.props.route.params.url
+            }
+            if(!url) {
+                url = `${global.API_URI}/api/post`
+            }
+            let data_ = await axios({
+                url,
                 method: 'get',
                 headers: {
                     'x-access-token': global.token
@@ -64,7 +71,13 @@ export default class UpperMenu extends React.Component {
             console.log(err);
         }
     }
-
+    handleTagClick = (tagName) => {
+        if(tagName==="싸그리"){
+            return null;
+        }
+        const url = `${global.API_URI}/api/post?tag=${tagName}`
+        this.props.navigation.push('Home',{ url } )
+    }
     _handleLoadMore = () => {
         this.sendPost();
     }
@@ -74,12 +87,12 @@ export default class UpperMenu extends React.Component {
     }
 
     componentDidMount() {
-        //this.sendPost();
+        this.sendPost();
     }
 
     _renderItem = ({ item, index }) => (
         <TouchableOpacity key={index} onPress={() => this.props.navigation.navigate({ name: 'Details', params: { item } })}>
-            <PostCard key={index} post={item} />
+            <PostCard key={index} post={item} handleTagClick = {this.handleTagClick} />
         </TouchableOpacity>
     );
     handleScroll = (item) =>{

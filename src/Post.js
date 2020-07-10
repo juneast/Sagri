@@ -5,13 +5,13 @@ import Tag from './Tag'
 import Comment from './Comment'
 import axios from 'axios'
 import computeTime from './modules/computeTime'
-const Post = ({ route, navigation }) => {
+const Post = ({ route, navigation}) => {
     const post = route.params.item;
     const [comments, setComments] = useState([]);
     const [isLoading, setIsLoading] = useState(false);
     const [content, setContent] = useState("");
     const [like, setLike] = useState(route.params.item.likes);
-
+    
     const getCommentRequest = async () => {
         try {
             axios({
@@ -114,7 +114,7 @@ const Post = ({ route, navigation }) => {
             <View style={{ height: "100%" }}>
                 <ScrollView style={{marginBottom:50}}>
                     <View style={styles.view}>
-                        <Tag tagName="Sagri" />
+                        <Tag tagName={post.tag}/>
                         <Text style={styles.title}>{post.title}</Text>
                         <Text>{post.author.userId}</Text>
                         <Text>{computeTime(post.createTime)}</Text>

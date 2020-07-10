@@ -7,7 +7,7 @@ const FooterMenu =({navigation})=> {
       <Footer>
         <FooterTab>
           <Button vertical active>
-            <Icon name="apps" />
+            <Icon name="apps"onPress = {()=>navigation.push("Home")} />
             <Text>타임라인</Text>
           </Button>
           <Button vertical onPress = {()=>navigation.navigate("검색")}>

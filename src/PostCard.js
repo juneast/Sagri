@@ -48,12 +48,12 @@ const styles = StyleSheet.create({
   }
 })
 
-const PostCard = ({ post }) => {
+const PostCard = ({ post,handleTagClick}) => {
   console.log(post);
   return (
     <View style={{marginBottom:5, backgroundColor:"#fff"}}>
       <View style={styles.container}>
-        <Tag tagName="아무거나" />
+        <Tag tagName={post.tag} handleTagClick={handleTagClick}/>
         <Text>{post.title}</Text>
         <Text style={styles.content}>{post.content}</Text>
         <Text style={styles.author}>{post.author.userId}</Text>
