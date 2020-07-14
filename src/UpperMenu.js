@@ -1,12 +1,12 @@
 import React, { Component } from 'react';
-import { ScrollView, TouchableOpacity, StyleSheet } from 'react-native';
+import { ScrollView, TouchableOpacity, StyleSheet, RefreshControl, Picker } from 'react-native';
 import { Container, Tab, Tabs, ScrollableTab, Text, Button, Spinner, Header } from 'native-base';
 import PostCard from './PostCard'
 import HomeTab from './HomeTab'
 import SearchTab from './SearchTab'
 import axios from 'axios'
 import FooterMenu from './FooterMenu'
-
+import ListHeader from './components/ListHeader'
 import {
     View,
     Image,
@@ -46,10 +46,14 @@ export default class UpperMenu extends React.Component {
         this.state = {
             data: [],
             page: 1,
+            selectedValue : "createTime",
             isLoading: true,
             refreshing: false,
             toTopButtonAvailable: false,
-            changeNum:0
+            changeNum:0,
+            isMore : true,
+            moreLoading : false,
+            
         }
     }
     getPost = async() => {
@@ -63,24 +67,20 @@ export default class UpperMenu extends React.Component {
             console.log(err);
         }
     }
-    sendPost = async (tagName) => {
+    sendPost = async () => {
+        const {params} = this.props.route;
         try {
-            let url = undefined;
-            if (this.props.route.params) {
-                url = this.props.route.params.url
-            }
-            if (!url) {
-                url = `${global.API_URI}/api/post`
-            }
+            let url = params ? params.url+"&" : `${global.API_URI}/api/post?`;
             let data_ = await axios({
-                url,
+                url : url + `type=${this.state.selectedValue}`,
                 method: 'get',
             })
             this.setState({
                 data: this.state.refreshing ? data_.data : this.state.data.concat(data_.data),
                 page: this.state.refreshing ? 1 : this.state.page + 1,
                 isLoading: false,
-                refreshing: false
+                refreshing: false,
+                isMore : data_.data.length===0 ? false : true
             });
         } catch (err) {
             console.log(err);
@@ -98,16 +98,45 @@ export default class UpperMenu extends React.Component {
         const url = `${global.API_URI}/api/post?tag=${tagName}`
         this.props.navigation.push('Home', { url })
     }
-    _handleLoadMore = () => {
-        this.sendPost();
+    _handleLoadMore = async () => {
+        
+        if(!this.state.isMore || this.state.moreLoading) return null;
+        const {data,selectedValue} = this.state;
+        const {params} = this.props.route;
+        this.setState({moreLoading : true})
+        try {
+            let url = params ? params.url : `${global.API_URI}/api/post`;
+            let data_ = await axios({
+                url : `${url}?last=${data[data.length-1].postid}&type=${selectedValue}`,
+                method: 'get',
+            })
+            this.setState({
+                data: this.state.refreshing ? data_.data : this.state.data.concat(data_.data),
+                page: this.state.refreshing ? 1 : this.state.page + 1,
+                isLoading: false,
+                refreshing: false,
+                isMore : data_.data.length===0 ? false : true,
+                moreLoading : false,
+            });
+        } catch (err) {
+            console.log(err);
+        }
     }
 
     _handleRefresh = () => {
+        this.setState({refreshing: true});
         this.sendPost();
     }
-
+    handleListHeader = (item) => {
+        this.setState({refreshing: true , selectedValue : item}, ()=>{
+            this.sendPost();
+        });
+        
+    }
     componentDidMount() {
-        this.sendPost();
+        if(this.state.isLoading){
+            this.sendPost();
+        }
     }
 
     _renderItem = ({ item, index }) => (
@@ -140,17 +169,22 @@ export default class UpperMenu extends React.Component {
                     renderItem={this._renderItem}
                     keyExtractor={(item, index) => index.toString()}
                     extraData={this.state.refreshing}
-                    ListHeaderComponent={<Header style={{ backgroundColor: "#fff", height: 40, borderBottomWidth: StyleSheet.hairlineWidth }} />}
-                //refreshing={this.state.refreshing}
-                //onRefresh={this._handleRefresh}
-                //onEndReached={this._handleLoadMore}
-                //onEndReachedThreshold={0.1}
+                    ListHeaderComponent={<ListHeader listValue={this.state.selectedValue} handleListHeader = {this.handleListHeader}/>}
+                    ListFooterComponent={this.state.isMore ? <Spinner /> : <View style={{alignItems:"center", backgroundColor:"white"}}><Text>마지막입니다</Text></View>}
+                    refreshControl={
+                        <RefreshControl
+                          refreshing={this.state.refreshing}
+                          onRefresh={this._handleRefresh}
+                        />
+                      }
+                onEndReached={this._handleLoadMore}
+                onEndReachedThreshold={0.1}
                 />
                 {
                     this.state.toTopButtonAvailable ?
                         <TouchableOpacity
                             onPress={() => this.flatListRef.scrollToOffset({ animated: true, offset: 0 })}
-                            style={{ position: "absolute", bottom: 20, right: 20, backgroundColor: "rgba(0,0,0,0.2)", padding: 5, borderRadius: 3 }}>
+                            style={{ position: "absolute", bottom: 100, right: 20, backgroundColor: "rgba(0,0,0,0.2)", padding: 5, borderRadius: 3 }}>
                             <Text>Top</Text>
                         </TouchableOpacity>
                         :

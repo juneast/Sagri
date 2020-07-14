@@ -7,8 +7,9 @@ var BUTTONS = ["등록위치 선택", "정치", "경제", "사회", "과학"];
 var DESTRUCTIVE_INDEX = 3;
 var CANCEL_INDEX = 0;
 
-const Action = ({setTag}) => {
-    const [buttonIndex, setButtonIndex] = React.useState(0);
+const Action = ({setTag, firstItem}) => {
+    const firstIndex = BUTTONS.indexOf(firstItem)
+    const [buttonIndex, setButtonIndex] = React.useState(firstIndex===-1? 0 : firstIndex);
     return (
             <Root>
             <TouchableWithoutFeedback
