@@ -3,7 +3,6 @@ import { ScrollView, TouchableOpacity, StyleSheet, RefreshControl, Picker } from
 import { Container, Tab, Tabs, ScrollableTab, Text, Button, Spinner, Header } from 'native-base';
 import PostCard from './PostCard'
 import HomeTab from './HomeTab'
-import SearchTab from './SearchTab'
 import axios from 'axios'
 import FooterMenu from './FooterMenu'
 import ListHeader from './components/ListHeader'
@@ -17,7 +16,6 @@ export default class UpperMenu extends React.Component {
     
     constructor(props) {
         super(props);
-        console.log(this.props.navigation)
         this.props.navigation.addListener('focus', () => {
             if (this.state.changeNum === 0) {
 

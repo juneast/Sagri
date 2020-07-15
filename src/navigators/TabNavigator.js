@@ -7,7 +7,7 @@ import Post from '../Post'
 import MakeBoard from '../MakeBoard'
 import UpdateBoard from '../screens/UpdateBoard'
 import Action from '../Action'
-import Search from '../Search'
+import SearchStack from '../navigators/SearchStack'
 import ChattingRoomList from '../ChatRoomList'
 import Chat from '../Chat'
 import UpperMenu from '../UpperMenu'
@@ -36,13 +36,13 @@ export default function TabNavigator() {
         tabBarIcon: ({ focused, color, size }) => {
           let iconName;
 
-          if (route.name === 'Timeline') {
+          if (route.name === '타임라인') {
             iconName = "apps"
-          } else if (route.name === 'Settings') {
+          } else if (route.name === '내정보') {
             iconName = "person"
-          } else if (route.name === 'Search') {
+          } else if (route.name === '검색') {
             iconName = "search"
-          } else if (route.name === 'ChatRoom') {
+          } else if (route.name === '대화') {
             iconName = "chatboxes"
           } else if (route.name === '글작성') {
             iconName = "create"
@@ -54,14 +54,14 @@ export default function TabNavigator() {
       tabBarOptions={{
         activeTintColor: 'tomato',
         inactiveTintColor: 'gray',
-        showLabel : false,
+        //showLabel : false,
         keyboardHidesTabBar : true,
       }}
     >
-        <Tab.Screen name="Timeline" component={TimelineStack} />
-        <Tab.Screen name="Search" component={Search}/>
-        <Tab.Screen name="ChatRoom" component={ChattingRoomList} />
-        <Tab.Screen name="Settings" component={SettingsScreen} />
+        <Tab.Screen name="타임라인" component={TimelineStack} />
+        <Tab.Screen name="검색" component={SearchStack}/>
+        <Tab.Screen name="대화" component={ChattingRoomList} />
+        <Tab.Screen name="내정보" component={SettingsScreen} />
         <Tab.Screen name="글작성" component={MakeBoard} />
       </Tab.Navigator>
   );
