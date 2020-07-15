@@ -13,46 +13,40 @@ const Post = ({ route, navigation }) => {
         isLoading: false,
         isChange: false,
         post: route.params.item,
-        comments: [],
     })
-    // const [post,setPost] = useState(route.params.item);
-    // const [comments, setComments] = useState([]);
-    // const [isLoading, setIsLoading] = useState(false);
+    const [comments, setComments] = useState([]);
     const [content, setContent] = useState("");
     const [like, setLike] = useState(route.params.item.likes);
 
-    const getCommentRequest = async () => {
+
+    const getPostRequest = async () => {
         try {
-            if (state.isChange) {
-                route.params.handlePostChange(state.post.postid)
-                const response = await axios({
-                    url: global.API_URI + "/api/post/" + route.params.item.postid,
-                    method: 'get',
-                })
+            if (state.isChange) route.params.handlePostChange(state.post.postid)
+            const response = await axios({
+                url: global.API_URI + "/api/post/" + route.params.item.postid,
+                method: 'get',
+            })
+            if (response.status === 200) {
                 setState({
                     isLoading: true,
                     isChange: false,
                     post: response.data,
-                    comments: state.comments
                 })
-            } else {
-                axios({
-                    url: global.API_URI + "/api/post/" + route.params.item.postid,
-                    method: 'get',
-                })
-                const response = await axios({
-                    url: global.API_URI + "/api/comment/" + route.params.item.postid,
-                    method: 'get',
+            }
+        } catch (err) {
+            console.log(err);
+        }
+    }
 
-                })
-                if (response.status === 200) {
-                    setState({
-                        isLoading: true,
-                        isChange: false,
-                        post: state.post,
-                        comments: response.data
-                    })
-                }
+    const getCommentRequest = async () => {
+        try {
+            const response = await axios({
+                url: global.API_URI + "/api/comment/" + route.params.item.postid,
+                method: 'get',
+
+            })
+            if (response.status === 200) {
+                setComments(response.data)
             }
         } catch (err) {
             alert("조회에 실패했습니다!")
@@ -130,8 +124,7 @@ const Post = ({ route, navigation }) => {
         setState({
             isLoading: false,
             isChange: true,
-            post: state.post,
-            comments: state.comments,
+            post: state.post
         })
     }
     const deletePostRequest = async () => {
@@ -159,6 +152,7 @@ const Post = ({ route, navigation }) => {
     }
     useEffect(() => {
         if (!state.isLoading) {
+            getPostRequest();
             getCommentRequest();
 
         }
@@ -242,7 +236,7 @@ const Post = ({ route, navigation }) => {
                         </View>
                         <View style={styles.sagri}><Text style={styles.sagriText}>SAGRI</Text></View>
                         <View style={{ ...styles.sagri, height: "auto" }}>
-                            {state.comments.map((item, index) => <View key={index} style={{ width: "100%" }}><Comment key={index} info={item} onRemove = {handleRemoveComment} /></View>)}
+                            {comments.map((item, index) => <View key={index} style={{ width: "100%" }}><Comment key={index} info={item} onRemove={handleRemoveComment} /></View>)}
                         </View>
                     </ScrollView>
 

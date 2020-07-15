@@ -13,32 +13,17 @@ import {
     FlatList, // here
 } from 'react-native';
 
-/*import { createMaterialTopTabNavigator, createAppContainer } from 'react-navigation'; 
-
-const AppTabNavigator = createMaterialTopTabNavigator({
-    HomeTab: { screen: HomeTab },
-    SearchTab: { screen: SearchTab }
-  });
-
-const AppTabContainet = createAppContainer(AppTabNavigator);
-
-export default class UpperMenu extends React.Component({navigation}){
-    render() {
-        return <AppTabContainet/>;
-    }
-}*/
-
 export default class UpperMenu extends React.Component {
     constructor(props) {
         super(props);
         this.props.navigation.addListener('focus', () => {
             if (this.state.changeNum === 0) {
 
-            } else if(this.state.changeNum===-1){
-                this.setState({ isLoading: true, refreshing: true, changeNum:0 })
+            } else if (this.state.changeNum === -1) {
+                this.setState({ isLoading: true, refreshing: true, changeNum: 0 })
                 console.log("focused");
                 this.sendPost()
-            } else {       
+            } else {
                 this.getPost();
             }
 
@@ -46,33 +31,33 @@ export default class UpperMenu extends React.Component {
         this.state = {
             data: [],
             page: 1,
-            selectedValue : "createTime",
+            selectedValue: "createTime",
             isLoading: true,
             refreshing: false,
             toTopButtonAvailable: false,
-            changeNum:0,
-            isMore : true,
-            moreLoading : false,
-            
+            changeNum: 0,
+            isMore: true,
+            moreLoading: false,
+
         }
     }
-    getPost = async() => {
+    getPost = async () => {
         try {
             let response = await axios({
-                url : `${global.API_URI}/api/post/${this.state.changeNum}`,
+                url: `${global.API_URI}/api/post/${this.state.changeNum}`,
                 method: 'get',
             })
-            this.setState({data:this.state.data.map((item,index)=>item.postid==this.state.changeNum ? response.data: item), changeNum:0})
+            this.setState({ data: this.state.data.map((item, index) => item.postid == this.state.changeNum ? response.data : item), changeNum: 0 })
         } catch (err) {
             console.log(err);
         }
     }
     sendPost = async () => {
-        const {params} = this.props.route;
+        const { params } = this.props.route;
         try {
-            let url = params ? params.url+"&" : `${global.API_URI}/api/post?`;
+            let url = params ? params.url + "&" : `${global.API_URI}/api/post?`;
             let data_ = await axios({
-                url : url + `type=${this.state.selectedValue}`,
+                url: url + `type=${this.state.selectedValue}`,
                 method: 'get',
             })
             this.setState({
@@ -80,16 +65,16 @@ export default class UpperMenu extends React.Component {
                 page: this.state.refreshing ? 1 : this.state.page + 1,
                 isLoading: false,
                 refreshing: false,
-                isMore : data_.data.length===0 ? false : true
+                isMore: data_.data.length === 0 ? false : true
             });
         } catch (err) {
             console.log(err);
         }
     }
-    handlePostChange = (num)=>{
-        if(num===undefined) this.setState({changeNum:-1});
-        else this.setState({changeNum:num});
-        
+    handlePostChange = (num) => {
+        if (num === undefined) this.setState({ changeNum: -1 });
+        else this.setState({ changeNum: num });
+
     }
     handleTagClick = (tagName) => {
         if (tagName === "싸그리") {
@@ -99,15 +84,15 @@ export default class UpperMenu extends React.Component {
         this.props.navigation.push('Home', { url })
     }
     _handleLoadMore = async () => {
-        
-        if(!this.state.isMore || this.state.moreLoading) return null;
-        const {data,selectedValue} = this.state;
-        const {params} = this.props.route;
-        this.setState({moreLoading : true})
+
+        if (!this.state.isMore || this.state.moreLoading) return null;
+        const { data, selectedValue } = this.state;
+        const { params } = this.props.route;
+        this.setState({ moreLoading: true })
         try {
             let url = params ? params.url : `${global.API_URI}/api/post`;
             let data_ = await axios({
-                url : `${url}?last=${data[data.length-1].postid}&type=${selectedValue}`,
+                url: `${url}?last=${selectedValue === "createTime" ? data[data.length - 1].postid : this.state.page}&type=${selectedValue}`,
                 method: 'get',
             })
             this.setState({
@@ -115,8 +100,8 @@ export default class UpperMenu extends React.Component {
                 page: this.state.refreshing ? 1 : this.state.page + 1,
                 isLoading: false,
                 refreshing: false,
-                isMore : data_.data.length===0 ? false : true,
-                moreLoading : false,
+                isMore: data_.data.length === 0 ? false : true,
+                moreLoading: false,
             });
         } catch (err) {
             console.log(err);
@@ -124,24 +109,24 @@ export default class UpperMenu extends React.Component {
     }
 
     _handleRefresh = () => {
-        this.setState({refreshing: true});
+        this.setState({ refreshing: true });
         this.sendPost();
     }
     handleListHeader = (item) => {
-        this.setState({refreshing: true , selectedValue : item}, ()=>{
+        this.setState({ refreshing: true, selectedValue: item }, () => {
             this.sendPost();
         });
-        
+
     }
     componentDidMount() {
-        if(this.state.isLoading){
+        if (this.state.isLoading) {
             this.sendPost();
         }
     }
 
     _renderItem = ({ item, index }) => (
-        <TouchableOpacity key={index} onPress={() => this.props.navigation.navigate({ name: 'Details', params: { item, handlePostChange : this.handlePostChange } })}>
-            <PostCard key={index} post={item} handleTagClick={this.handleTagClick}/>
+        <TouchableOpacity key={index} onPress={() => this.props.navigation.navigate({ name: 'Details', params: { item, handlePostChange: this.handlePostChange } })}>
+            <PostCard key={index} post={item} handleTagClick={this.handleTagClick} />
         </TouchableOpacity>
     );
     handleScroll = (item) => {
@@ -169,16 +154,16 @@ export default class UpperMenu extends React.Component {
                     renderItem={this._renderItem}
                     keyExtractor={(item, index) => index.toString()}
                     extraData={this.state.refreshing}
-                    ListHeaderComponent={<ListHeader listValue={this.state.selectedValue} handleListHeader = {this.handleListHeader}/>}
-                    ListFooterComponent={this.state.isMore ? <Spinner /> : <View style={{alignItems:"center", backgroundColor:"white"}}><Text>마지막입니다</Text></View>}
+                    ListHeaderComponent={<ListHeader listValue={this.state.selectedValue} handleListHeader={this.handleListHeader} />}
+                    ListFooterComponent={this.state.isMore ? <Spinner /> : <View style={{ alignItems: "center", backgroundColor: "white" }}><Text style={{padding:10}}>마지막입니다</Text></View>}
                     refreshControl={
                         <RefreshControl
-                          refreshing={this.state.refreshing}
-                          onRefresh={this._handleRefresh}
+                            refreshing={this.state.refreshing}
+                            onRefresh={this._handleRefresh}
                         />
-                      }
-                onEndReached={this._handleLoadMore}
-                onEndReachedThreshold={0.1}
+                    }
+                    onEndReached={this._handleLoadMore}
+                    onEndReachedThreshold={0.1}
                 />
                 {
                     this.state.toTopButtonAvailable ?
@@ -190,7 +175,7 @@ export default class UpperMenu extends React.Component {
                         :
                         null
                 }
-                <FooterMenu onMake = {this.handlePostChange} navigation={this.props.navigation} />
+                <FooterMenu onMake={this.handlePostChange} navigation={this.props.navigation} />
             </Container>
         );
     }
