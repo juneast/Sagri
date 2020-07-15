@@ -5,7 +5,7 @@ import { createStackNavigator } from '@react-navigation/stack'
 import LoginScreen from '../screens/LoginScreen'
 import ForgetScreen from '../screens/ForgetScreen'
 import SignUpScreen from '../screens/SignUpScreen'
-import MainNavigator from './MainNavigator'
+import TimelineNavigator from './TimelineNavigator';
 
 const Stack = createStackNavigator();
 
@@ -14,7 +14,7 @@ const LoginNavigator = ()=> {
       <NavigationContainer>
         <Stack.Navigator initialRouteName="Login">
           <Stack.Screen name="Login" component={LoginScreen} options={{ headerShown: false }} />
-          <Stack.Screen name="Home" component={MainNavigator} options={{ headerShown: false }} />
+          <Stack.Screen name="Home" component={TimelineNavigator} options={{ headerShown: false }} />
           <Stack.Screen name="Forget" component={ForgetScreen} options={{ headerShown: false }} />
           <Stack.Screen name="SignUp" component={SignUpScreen} options={{ headerShown: false }} />
         </Stack.Navigator>

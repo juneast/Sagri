@@ -51,7 +51,7 @@ const MakeBoard = ({ route, navigation }) => {
                 }
             })
             if (response.status === 200) {
-                route.params.onMake();
+                //route.params.onMake();
                 navigation.goBack(null);
             } else {
                 alert("실패")

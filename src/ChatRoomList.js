@@ -102,7 +102,7 @@ export default class ChattingRoomList extends React.Component {
             <FlatList
                 data={this.state.chat_room}
                 renderItem={this._renderItem}
-                keyExtractor={(item, index) => item._id}
+                keyExtractor={(item, index) => index.toString()}
                 //refreshing={this.state.refreshing}
                 //onRefresh={this._handleRefresh}
             //onEndReached={this._handleLoadMore}

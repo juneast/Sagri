@@ -1,10 +1,9 @@
 import React from 'react';
-import { View, Text, StyleSheet, TouchableWithoutFeedback,TouchableOpacity } from 'react-native';
+import { View, Text, StyleSheet, TouchableWithoutFeedback,TouchableOpacity,TextInput } from 'react-native';
 import { Container, Header, Item, Input, Icon, Button } from 'native-base';
 const styles = StyleSheet.create({
     root: {
         backgroundColor: '#fff',
-        height:"93%"
     },
     searchBar: {
         alignItems: "center",
@@ -58,12 +57,11 @@ const Search = ({ tagName, navigation }) => {
         setSearchList([]);
     }
     return (
-        <View>
         <View style={styles.root}>
             <Header style={{ backgroundColor: "#fff", alignItems: "center", height: "auto", width: "auto" }}>
                 <View style={styles.searchBar}>
                     <Icon name="ios-search" style={{ marginLeft: 10 }} />
-                    <Input style={{fontSize:14}}value={content} placeholder="Search" placeholderTextColor="#ccc" onChange={(item)=>setContent(item.nativeEvent.text)} onSubmitEditing={()=>handleInsertList()}/>
+                    <Input autoFocus={true} style={{fontSize:14}}value={content} placeholder="Search" placeholderTextColor="#ccc" onChange={(item)=>setContent(item.nativeEvent.text)} onSubmitEditing={()=>handleInsertList()}/>
                 </View>
                 <TouchableWithoutFeedback onPress={()=>setContent("")} ><Text style={{ marginRight: 10 }}>취소</Text></TouchableWithoutFeedback>
             </Header>
@@ -81,7 +79,6 @@ const Search = ({ tagName, navigation }) => {
                 
             </View>
             
-        </View>
         </View>
     );
 }

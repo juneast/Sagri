@@ -14,8 +14,10 @@ import {
 } from 'react-native';
 
 export default class UpperMenu extends React.Component {
+    
     constructor(props) {
         super(props);
+        console.log(this.props.navigation)
         this.props.navigation.addListener('focus', () => {
             if (this.state.changeNum === 0) {
 
@@ -81,7 +83,7 @@ export default class UpperMenu extends React.Component {
             return null;
         }
         const url = `${global.API_URI}/api/post?tag=${tagName}`
-        this.props.navigation.push('Home', { url })
+        this.props.navigation.push('Timeline', { url })
     }
     _handleLoadMore = async () => {
 
@@ -169,13 +171,12 @@ export default class UpperMenu extends React.Component {
                     this.state.toTopButtonAvailable ?
                         <TouchableOpacity
                             onPress={() => this.flatListRef.scrollToOffset({ animated: true, offset: 0 })}
-                            style={{ position: "absolute", bottom: 100, right: 20, backgroundColor: "rgba(0,0,0,0.2)", padding: 5, borderRadius: 3 }}>
+                            style={{ position: "absolute", bottom: 50, right: 20, backgroundColor: "rgba(0,0,0,0.2)", padding: 5, borderRadius: 3 }}>
                             <Text>Top</Text>
                         </TouchableOpacity>
                         :
                         null
                 }
-                <FooterMenu onMake={this.handlePostChange} navigation={this.props.navigation} />
             </Container>
         );
     }

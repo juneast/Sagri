@@ -12,33 +12,16 @@ import Action from '../Action'
 import Search from '../Search'
 import ChattingRoomList from '../ChatRoomList'
 import Chat from '../Chat'
+import TabNavigator from './TabNavigator'
 
 const Stack = createStackNavigator();
 
-const MainNavigator = ()=> {
+const TimelineNavigator = ()=> {
     return (
       <Root>
         <Stack.Navigator initialRouteName="Home">
-          <Stack.Screen name="Home" component={UpperMenu} options={{ headerShown: false }} />
-          <Stack.Screen name="Details" component={Post} options={{ 
-            // headerTitle: props => <Text>디테일</Text>,
-            // headerTintColor: '#000',
-            // headerRight: props => (
-            //   <Button title="수정" style={{ marginRight: 20 }} onPress={()=>console.log(props)}/>
-              
-            // )
-
-          }} />
-          <Stack.Screen name="글작성" component={MakeBoard} options={{ headerShown:false
-            // headerTitle: props => <Action />,
-            // headerTitleAlign: "center",
-            // headerTintColor: '#000',
-            // headerRight: props => (
-            //   <Text style={{ marginRight: 20 }}>등록</Text>
-            // )
-          }} />
-          <Stack.Screen name="검색" component={Search} options={{ headerShown: false }} />
-          <Stack.Screen name="채팅" component={ChattingRoomList} options={{ headerShown: false }} />
+          <Stack.Screen name="Home" component={TabNavigator} options={{ headerShown: false }} />
+          <Stack.Screen name="Details" component={Post} />
           <Stack.Screen name="Chat" component={Chat} options={{ headerShown: false }} />
           <Stack.Screen name="글수정" component={UpdateBoard} options={{ headerShown: false }} />
         </Stack.Navigator>
@@ -60,4 +43,4 @@ const styles = StyleSheet.create({
   }
 });
 
-export default MainNavigator;
+export default TimelineNavigator;
