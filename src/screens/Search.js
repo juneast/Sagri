@@ -5,6 +5,7 @@ import axios from 'axios'
 const styles = StyleSheet.create({
     root: {
         backgroundColor: '#fff',
+        height:"100%"
     },
     searchBar: {
         alignItems: "center",
@@ -148,7 +149,7 @@ const Search = ({ tagName, navigation, route }) => {
                 </View>
                 <TouchableWithoutFeedback onPress={() => setContent("")} ><Text style={{ marginRight: 10 }}>취소</Text></TouchableWithoutFeedback>
             </Header>
-                <ScrollView style={{height:290}}>
+                <ScrollView style={{marginBottom:150}}>
                     {
                         state.searchList.length === 0 ?
                             <View style={{ height: 150, justifyContent: "center", alignItems: "center" }}><Text>최근 검색한 내용이 없습니다.</Text></View>
@@ -159,10 +160,12 @@ const Search = ({ tagName, navigation, route }) => {
                             </View>
 
                     }
+                    <View style={{borderBottomWidth:StyleSheet.hairlineWidth}}>
                     {state.searchList.map((item, index) => (
                         <RecentSearch content={item} index={index} handleDelete={handleDeleteList} handleClick={handleClick} />
                     )
                     ).reverse()}
+                    </View>
                 </ScrollView>
         </View>
     );

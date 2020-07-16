@@ -31,33 +31,23 @@ const styles = StyleSheet.create({
     }
 })
 
-const RecentSearch = ({content,index,handleDelete}) => {
-    return (
-        <TouchableWithoutFeedback>
-            <View style={{ ...styles.middelView, borderTopColor: "#ccc", borderTopWidth: StyleSheet.hairlineWidth }}>
-                <Text>{content}</Text>
-                <View style={{ flexDirection: "row",alignItems:"center"}}>
-                    <Text style={{ color: "#ccc", fontSize: 13, marginRight: 20 }}>06.17</Text>
-                    <TouchableOpacity style={{padding:10}} onPress={()=>handleDelete(index)}><Icon name="close" style={{ color: "#ccc", fontSize: 20 }} /></TouchableOpacity>
-                </View>
-            </View>
-        </TouchableWithoutFeedback>
-    )
-}
 let flatRef = {};
 const SearchResult = ({ tagName, navigation, route }) => {
-    
     const [content, setContent] = React.useState(route.params.name)
     const [topButton, setTopButton] = React.useState(false)
     const [state, setState] = React.useState({
         data : [],
         isLoading : true,
         refreshing : true,
+        changeNum : 0,
     });
 
     useEffect(() => {
         if(state.isLoading){
             searchPostRequest();
+        }
+        if(state.changeNum!==undefined && state.changeNum!==0){
+            getPost();
         }
 
     });
@@ -74,6 +64,7 @@ const SearchResult = ({ tagName, navigation, route }) => {
                     isLoading : false,
                     data : response.data,
                     refreshing: false,
+                    changeNum : 0,
                 })
             }
         } catch (err) {
@@ -96,10 +87,25 @@ const SearchResult = ({ tagName, navigation, route }) => {
         </TouchableOpacity>
     )
 
-        
-
+    const getPost = async () => {
+        try {
+            let response = await axios({
+                url: `${global.API_URI}/api/post/${state.changeNum}`,
+                method: 'get',
+            })
+            setState({ data: state.data.map((item, index) => item.postid == state.changeNum ? response.data : item), changeNum: 0 ,isLoading:false})
+        } catch (err) {
+            console.log(err);
+        }
+    }
+    const handlePostChange = (num) => {
+        if(num!==undefined) setState({data :state.data, changeNum :num, isLoading: false});
+        else {
+            setState({isLoading:true,changeNum:0,data:state.data})
+        }
+    }
     const handleInsertList = ()=> {
-        setState({isLoading:true})
+        setState({isLoading:true,changeNum:0,data:state.data})
         route.params.handleInsert(content)
     }
     return (
@@ -109,7 +115,7 @@ const SearchResult = ({ tagName, navigation, route }) => {
                     <Icon name="ios-search" style={{ marginLeft: 10 }} />
                     <Input style={{fontSize:14}}value={content} placeholder="Search" placeholderTextColor="#ccc" onChange={(item)=>setContent(item.nativeEvent.text)} onSubmitEditing={()=>handleInsertList()}/>
                 </View>
-                <TouchableWithoutFeedback onPress={()=>setContent("")} ><Text style={{ marginRight: 10 }}>취소</Text></TouchableWithoutFeedback>
+                <TouchableWithoutFeedback onPress={()=>navigation.goBack()} ><Text style={{ marginRight: 10 }}>취소</Text></TouchableWithoutFeedback>
             </Header>
             {state.isLoading ? 
                 <View style={{height:"100%",alignItems: "center", justifyContent: "center" }}><Spinner /></View>
@@ -119,7 +125,7 @@ const SearchResult = ({ tagName, navigation, route }) => {
                 <ScrollView style={{marginBottom:110}}>
                     <View style={{borderTopWidth:StyleSheet.hairlineWidth, backgroundColor:"#fff",marginBottom:10,paddingLeft:20, padding:10}}><Text >{`검색결과 : ${state.data.length}`}</Text></View>
                     {state.data.map((item,index)=>(
-                        <TouchableOpacity key={index} >
+                        <TouchableOpacity key={index} onPress={() => navigation.navigate({ name: 'Details', params: { item, handlePostChange: handlePostChange } })} >
                             <PostCard key={index} post={item}/>
                         </TouchableOpacity>
                     )
