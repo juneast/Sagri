@@ -1,102 +1,31 @@
 import React, { Component } from 'react';
-import {View, Button, TextInput, StyleSheet, TouchableOpacity, Text} from 'react-native'
-import { Hoshi  } from 'react-native-textinput-effects';
+import {View, StyleSheet} from 'react-native'
+import CustomInput from '../components/CustomInput'
+import CustomButton from '../components/CustomButton'
 
-class SignUpScreen extends React.Component {
-  state = {
-    userid: '', password: ''
+const ForgetScreen = ({ navigation }) => {
+  const [userId, setUserId] = React.useState("");
+  const [password, setPassword] = React.useState("");
+  const handleButtonClick = ()=>{
+    navigation.goBack();
   }
-  onChangeText = (key, val) => {
-    this.setState({ [key]: val })
-  }
-  signUp = async () => {
-    const { userid, password, password_chk, email } = this.state
-    try {
-      // here place your signup logic
-      console.log('User Successfully Signed Up!: ', success)
-    } catch (err) {
-      console.log('Error Signing Up: ', err)
-    }
-  }
- 
-  render() {
-    return (
-      <View style={styles.container}>
-        <View style={styles.inputView} >
-        <Hoshi 
-            label={'아이디'}
-            // this is used as active and passive border color
-            borderColor={'#CCCCCC'}
-            style={styles.inputText}
-            inputPadding={16}
-            labelHeight={24}
-            labelStyle={{ color: '#999999' }}
-            inputStyle={{ color: '#000000' }}
-            autoCapitalize="none"
-            onChangeText={text => this.setState({userid:text})}
-        />
-        </View>
-        <View style={styles.inputView} >
-        <Hoshi 
-            label={'비밀번호'}
-            secureTextEntry
-            // this is used as active and passive border color
-            borderColor={'#CCCCCC'}
-            style={styles.inputText}
-            inputPadding={16}
-            labelHeight={24}
-            labelStyle={{ color: '#999999' }}
-            inputStyle={{ color: '#000000' }}
-            autoCapitalize="none"
-            onChangeText={text => this.setState({password:text})}
-        />
-        </View>
- 
-        <TouchableOpacity
-                        onPress={()=> this.props.navigation.goBack()}
-                        style={styles.Btn}>
-                        <Text style={styles.ForgetText}>비밀번호 초기화</Text> 
-        </TouchableOpacity>
-        
-      </View>
-    )
-  }
+  return (
+    <View style={styles.container}>
+      <CustomInput label="아이디" secure={false} onChangeText={setUserId} />
+      <CustomInput label="비밀번호" secure={true} onChangeText={setPassword} />
+      <CustomButton label="비밀번호 찾기" onPress={handleButtonClick}/>
+    
+    </View >
+  );
 }
-
 const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: '#FFFFFF',
     alignItems: 'center',
-    justifyContent: 'center',
+    padding: 50,
+    paddingTop: "70%",
   },
-  inputView:{
-    width:"80%",
-    backgroundColor:"#FFFFFF",
-    borderBottomColor: '#ededed',
-    borderRadius:10,
-    height:60,
-    marginBottom:20,
-    justifyContent:"center",
-    padding:20
-  },
-  inputText:{
-    height:50,
-    color:"black"
-  },
-  Btn:{
-    width:"80%",
-    backgroundColor:"#0178D4",
-    borderRadius:10,
-    height:50,
-    alignItems:"center",
-    justifyContent:"center",
-    marginTop:30,
-    marginBottom:35
-  },
-  ForgetText:{
-    color:"white"
-  }
 })
 
-export default SignUpScreen;
+export default ForgetScreen; 

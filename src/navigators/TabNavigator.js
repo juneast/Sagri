@@ -52,7 +52,7 @@ export default function TabNavigator() {
         },
       })}
       tabBarOptions={{
-        activeTintColor: 'tomato',
+        activeTintColor: 'skyblue',
         inactiveTintColor: 'gray',
         //showLabel : false,
         keyboardHidesTabBar : true,

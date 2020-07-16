@@ -1,11 +1,12 @@
 import React, { Component } from 'react';
 import { ScrollView, TouchableOpacity, StyleSheet, RefreshControl, Picker } from 'react-native';
-import { Container, Tab, Tabs, ScrollableTab, Text, Button, Spinner, Header } from 'native-base';
+import { Container, Tab, Tabs, ScrollableTab, Text, Button, Spinner, Header, ListItem } from 'native-base';
 import PostCard from './PostCard'
 import HomeTab from './HomeTab'
 import axios from 'axios'
 import FooterMenu from './FooterMenu'
 import ListHeader from './components/ListHeader'
+import Ripple from 'react-native-material-ripple';
 import {
     View,
     Image,
@@ -13,7 +14,7 @@ import {
 } from 'react-native';
 
 export default class UpperMenu extends React.Component {
-    
+
     constructor(props) {
         super(props);
         this.props.navigation.addListener('focus', () => {
@@ -125,9 +126,16 @@ export default class UpperMenu extends React.Component {
     }
 
     _renderItem = ({ item, index }) => (
-        <TouchableOpacity key={index} onPress={() => this.props.navigation.navigate({ name: 'Details', params: { item, handlePostChange: this.handlePostChange } })}>
+        <ListItem key={index}
+        rippleSequential
+            noIndent
+            style={{padding:0, backgroundColor:"#fff",width:"100%",margin:0}}
+            onPress={() => {
+
+                this.props.navigation.navigate({ name: 'Details', params: { item, handlePostChange: this.handlePostChange } })
+            }}>
             <PostCard key={index} post={item} handleTagClick={this.handleTagClick} />
-        </TouchableOpacity>
+        </ListItem>
     );
     handleScroll = (item) => {
         if (item.nativeEvent.contentOffset.y !== 0 && !this.state.toTopButtonAvailable) {
@@ -155,7 +163,7 @@ export default class UpperMenu extends React.Component {
                     keyExtractor={(item, index) => index.toString()}
                     extraData={this.state.refreshing}
                     ListHeaderComponent={<ListHeader listValue={this.state.selectedValue} handleListHeader={this.handleListHeader} />}
-                    ListFooterComponent={this.state.isMore ? <Spinner /> : <View style={{ alignItems: "center", backgroundColor: "white" }}><Text style={{padding:10}}>마지막입니다</Text></View>}
+                    ListFooterComponent={this.state.isMore ? <Spinner /> : <View style={{ alignItems: "center", backgroundColor: "white" }}><Text style={{ padding: 10 }}>마지막입니다</Text></View>}
                     refreshControl={
                         <RefreshControl
                             refreshing={this.state.refreshing}
@@ -167,10 +175,10 @@ export default class UpperMenu extends React.Component {
                 />
                 {
                     this.state.toTopButtonAvailable ?
-                        <TouchableOpacity
+                        <TouchableOpacity info bordered small
                             onPress={() => this.flatListRef.scrollToOffset({ animated: true, offset: 0 })}
-                            style={{ position: "absolute", bottom: 50, right: 20, backgroundColor: "rgba(0,0,0,0.2)", padding: 5, borderRadius: 3 }}>
-                            <Text>Top</Text>
+                            style={{ position: "absolute", bottom: 50, right: 20, borderWidth: 1,padding:5, borderColor: "skyblue", borderRadius: 10 }}>
+                            <Text style={{ color: "skyblue" }}>Top</Text>
                         </TouchableOpacity>
                         :
                         null

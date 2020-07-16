@@ -246,7 +246,7 @@ const Post = ({ route, navigation }) => {
                             postCommentRequest();
                             setContent("");
                         }}>
-                            <Text style={{ color: content === "" ? "#ccc" : "red", fontSize: 13 }}>등록</Text>
+                            <Text style={{ color: content === "" ? "#ccc" : "skyblue", fontSize: 13 }}>등록</Text>
                         </TouchableOpacity>
                     </View>
 
@@ -294,7 +294,7 @@ const styles = StyleSheet.create({
     sagriText: {
         fontSize: 30,
         fontWeight: "bold",
-        color: "#ccc",
+        color: "skyblue",
     },
     textInput: {
         position: "absolute",

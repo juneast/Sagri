@@ -1,12 +1,41 @@
-import React, { Component } from 'react';
+import React, { Component,useRef } from 'react';
 import { StyleSheet, Text, View, TextInput, TouchableOpacity } from 'react-native';
 import { Hoshi } from 'react-native-textinput-effects';
 import axios from 'axios';
+import CustomInput from '../components/CustomInput'
+import CustomButton from '../components/CustomButton'
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    backgroundColor: '#FFFFFF',
+    alignItems: 'center',
+    padding: 50,
+    paddingTop: 170,
+  },
+  logo: {
+    fontWeight: "bold",
+    fontSize: 50,
+    color: "skyblue",
+    marginBottom: 50
+  },
+  forgot: {
+    color: "skyblue",
+    marginBottom: 35,
+    fontSize: 15
+  },
 
-const LoginScreen = ({navigation}) => {
+});
+
+const LoginScreen = ({ navigation }) => {
+  let idReferenece = useRef()
+  let passwordReferenence = useRef()
   const [userId, setUserId] = React.useState("");
   const [password, setPassword] = React.useState("");
   const sendLoginRequest = async () => {
+    if(userId==="" || password===""){
+      alert("아이디와 비밀번호를 확인해주세요")
+      return null;
+    }
     try {
       const response = await axios({
         url: global.API_URI + "/api/user/login",
@@ -18,113 +47,47 @@ const LoginScreen = ({navigation}) => {
       })
       if (response.status === 200) {
         global.token = response.data.token;
-        navigation.reset({index:0, routes:[{name:"Home"}]})
+        navigation.reset({ index: 0, routes: [{ name: "Home" }] })
       }
     } catch (err) {
       alert("아이디와 비밀번호를 확인해주세요")
       console.log(err);
     }
   }
+  const setIdRefer = (item)=> {
+    idReferenece=item;
+  }
+  const setPasswordRefer = (item)=> {
+    passwordReferenence=item;
+  }
+  
+  const handleIdSumbit = ()=>{
+      passwordReferenence.focus();
+  }
+  const handlePasswordSumbit = ()=>{
+    sendLoginRequest()
+}
   return (
     <View style={styles.container}>
-      <Text style={styles.logo}>이미지 로고</Text>
-      <View style={styles.inputView} >
-        <Hoshi
-          label={'아이디'}
-          // this is used as active and passive border color
-          borderColor={'#CCCCCC'}
-          style={styles.inputText}
-          inputPadding={16}
-          labelHeight={24}
-          labelStyle={{ color: '#999999' }}
-          inputStyle={{ color: '#000000' }}
-          autoCapitalize="none"
-          onChangeText={text => setUserId(text)}
-        />
+      <Text style={styles.logo}>SAGRI</Text>
+      <CustomInput label="아이디" secure={false} onChangeText={setUserId} onSubmitEditing={handleIdSumbit} setRefer={setIdRefer}/>
+      <CustomInput label="비밀번호" secure={true} onChangeText={setPassword} onSubmitEditing={handlePasswordSumbit} setRefer={setPasswordRefer}/>
+      <CustomButton label="로그인" onPress={sendLoginRequest}/>
+      
+      <View style={{ flexDirection: "row", alignSelf: "flex-end" }}>
+        <TouchableOpacity onPress={() => navigation.navigate("Forget")}>
+          <Text style={styles.forgot}>비밀번호 찾기</Text>
+        </TouchableOpacity>
 
-      </View>
-      <View style={styles.inputView} >
-        <Hoshi
-          label={'비밀번호'}
-          secureTextEntry
-          style={styles.inputText}
-          // this is used as active and passive border color
-          borderColor={'#CCCCCC'}
-          inputPadding={16}
-          labelHeight={24}
-          labelStyle={{ color: '#999999' }}
-          inputStyle={{ color: '#000000' }}
-          autoCapitalize="none"
-          onChangeText={text => setPassword(text)}
-        />
-
+        <Text style={{ ...styles.forgot, marginLeft: 10, marginRight: 10 }}>/</Text>
+        <TouchableOpacity
+          onPress={() => navigation.navigate("SignUp")}>
+          <Text style={styles.forgot}>회원가입</Text>
+        </TouchableOpacity>
       </View>
 
-      <TouchableOpacity
-        onPress={() => {
-          sendLoginRequest();
-          
-
-        }}
-        style={styles.loginBtn}>
-        <Text style={styles.loginText}>로그인</Text>
-      </TouchableOpacity>
-      <TouchableOpacity
-        onPress={() => navigation.navigate("SignUp")}>
-        <Text style={styles.forgot}>회원가입</Text>
-      </TouchableOpacity>
-      <TouchableOpacity onPress={() => navigation.navigate("Forget")}>
-        <Text style={styles.forgot}>비밀번호 초기화</Text>
-      </TouchableOpacity>
     </View >
   );
 }
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: '#FFFFFF',
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-  logo: {
-    fontWeight: "bold",
-    fontSize: 50,
-    color: "#000000",
-    marginBottom: 90
-  },
-  inputView: {
-    width: "80%",
-    backgroundColor: "#FFFFFF",
-    borderBottomColor: '#ededed',
-    borderRadius: 10,
-    height: 60,
-    marginBottom: 20,
-    justifyContent: "center",
-    padding: 20
-  },
-  inputText: {
-    height: 50,
-    color: "black"
-  },
-  forgot: {
-    color: "#0178D4",
-    marginBottom: 35,
-    fontSize: 15
-  },
-  loginBtn: {
-    width: "80%",
-    backgroundColor: "#0178D4",
-    borderRadius: 10,
-    height: 50,
-    alignItems: "center",
-    justifyContent: "center",
-    marginTop: 30,
-    marginBottom: 35
-  },
-  loginText: {
-    color: "white"
-  }
-});
 
 export default LoginScreen; 

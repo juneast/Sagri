@@ -9,8 +9,8 @@ const styles = StyleSheet.create({
     },
     tag: {
         fontSize: 12,
-        backgroundColor: "#eee",
-        color: "#000",
+        backgroundColor: "skyblue",
+        color: "#fff",
         lineHeight: 20,
         textAlign: "center",
         borderRadius: 15,

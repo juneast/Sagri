@@ -6,26 +6,29 @@ import Tag from './Tag'
 const styles = StyleSheet.create({
   container: {
     paddingTop: 30,
-    paddingLeft: 25,
-    paddingRight: 25
+    paddingLeft: 10,
+    paddingRight: 10
   },
   content: {
     fontSize: 13,
     color: "#ccc",
-    marginTop: 5
+    marginTop: 5,
+    alignSelf:"flex-start"
   },
   author: {
     fontSize: 13,
     marginTop: 15,
-    marginBottom: 15
+    marginBottom: 15,
+    alignSelf:"flex-start"
   },
   footer: {
+    width:"100%",
     borderTopWidth: StyleSheet.hairlineWidth,
     borderTopColor: "#ccc",
     height: 40,
     flexDirection:"row",
     justifyContent:"space-between",
-    paddingLeft:25,
+    paddingLeft:10,
     alignItems:"center"
   },
   footerLeft:{
@@ -50,10 +53,10 @@ const styles = StyleSheet.create({
 
 const PostCard = ({ post,handleTagClick}) => {
   return (
-    <View style={{marginBottom:5, backgroundColor:"#fff"}}>
+    <View style={{backgroundColor:"#fff",width:"100%"}}>
       <View style={styles.container}>
         <Tag tagName={post.tag} handleTagClick={handleTagClick}/>
-        <Text>{post.title}</Text>
+        <Text style={{alignSelf:"flex-start"}}>{post.title}</Text>
         <Text style={styles.content}>{post.content}</Text>
         <Text style={styles.author}>{post.author.userId}</Text>
       </View>
@@ -83,36 +86,3 @@ const PostCard = ({ post,handleTagClick}) => {
 }
 
 export default PostCard;
-
-
-
-/* <CardItem>
-              <Left>
-                <Body>
-                  <Text>{post.title}</Text>
-                  <Text note>{post.author.userId}</Text>
-                </Body>
-              </Left>
-            </CardItem>
-            <CardItem cardBody>
-            <Text>{post.content}</Text>
-            </CardItem>
-            <CardItem>
-              <Left>
-              <Button transparent>
-                  <Icon active name="eye" />
-                </Button>
-                <Button transparent>
-                  <Icon active name="thumbs-up" />
-                </Button>
-                <Button transparent>
-                  <Icon active name="chatbubbles" />
-                </Button>
-              </Left>
-              <Right>
-                <Text>{computeTime(post.createTime)}</Text>
-                </Right>
-              <Body>
-
-              </Body>
-            </CardItem> */
