@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
-import { Image, View, StyleSheet, TouchableOpacity, RefreshControl } from 'react-native';
-import { Container, Header, Content, Card, CardItem, Thumbnail, Text, Button, Icon, Left, Body, Right } from 'native-base';
-import computeTime from './modules/computeTime'
+import { View, StyleSheet, TouchableOpacity } from 'react-native';
+import {  Text, Icon, ListItem} from 'native-base';
+import computeTime from '../../modules/computeTime'
 import Tag from './Tag'
 const styles = StyleSheet.create({
   container: {
@@ -51,8 +51,14 @@ const styles = StyleSheet.create({
   }
 })
 
-const PostCard = ({ post,handleTagClick}) => {
+const PostCard = ({ post,handleTagClick ,navigation, handlePostChange}) => {
   return (
+    <ListItem
+            noIndent
+            style={{padding:0, backgroundColor:"#fff",width:"100%",margin:0}}
+            onPress={() => {
+                navigation.navigate({ name: 'Details', params: { item:post, handlePostChange } })
+            }}>
     <View style={{backgroundColor:"#fff",width:"100%"}}>
       <View style={styles.container}>
         <Tag tagName={post.tag} handleTagClick={handleTagClick}/>
@@ -81,6 +87,7 @@ const PostCard = ({ post,handleTagClick}) => {
 
       </View>
       </View>
+      </ListItem>
   );
 
 }

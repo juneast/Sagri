@@ -1,19 +1,10 @@
 import React, { Component } from 'react';
-import { ScrollView, TouchableOpacity, StyleSheet, RefreshControl, Picker } from 'react-native';
-import { Container, Tab, Tabs, ScrollableTab, Text, Button, Spinner, Header, ListItem } from 'native-base';
-import PostCard from './PostCard'
-import HomeTab from './HomeTab'
+import { ScrollView, TouchableOpacity, StyleSheet, RefreshControl, Picker, View, FlatList } from 'react-native';
+import { Container, Text, Spinner} from 'native-base';
+import { PostCard,ListHeader } from '../../components/index'
 import axios from 'axios'
-import FooterMenu from './FooterMenu'
-import ListHeader from './components/ListHeader'
-import Ripple from 'react-native-material-ripple';
-import {
-    View,
-    Image,
-    FlatList, // here
-} from 'react-native';
 
-export default class UpperMenu extends React.Component {
+export default class Timeline extends React.Component {
 
     constructor(props) {
         super(props);
@@ -126,16 +117,7 @@ export default class UpperMenu extends React.Component {
     }
 
     _renderItem = ({ item, index }) => (
-        <ListItem key={index}
-        rippleSequential
-            noIndent
-            style={{padding:0, backgroundColor:"#fff",width:"100%",margin:0}}
-            onPress={() => {
-
-                this.props.navigation.navigate({ name: 'Details', params: { item, handlePostChange: this.handlePostChange } })
-            }}>
-            <PostCard key={index} post={item} handleTagClick={this.handleTagClick} />
-        </ListItem>
+        <PostCard key={index} post={item} handleTagClick={this.handleTagClick} navigation={this.props.navigation} handlePostChange={this.handlePostChange} />
     );
     handleScroll = (item) => {
         if (item.nativeEvent.contentOffset.y !== 0 && !this.state.toTopButtonAvailable) {
@@ -152,8 +134,6 @@ export default class UpperMenu extends React.Component {
         }
         return (
             <Container>
-
-
                 <FlatList
                     ref={(ref) => { this.flatListRef = ref; }}
                     style={{ backgroundColor: "#eee" }}

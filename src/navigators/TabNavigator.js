@@ -1,33 +1,9 @@
 import * as React from 'react';
-import { Text, View } from 'react-native';
-import { NavigationContainer } from '@react-navigation/native';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import {Icon} from 'native-base'
-import Post from '../Post'
-import MakeBoard from '../MakeBoard'
-import UpdateBoard from '../screens/UpdateBoard'
-import Action from '../Action'
 import SearchStack from '../navigators/SearchStack'
-import ChattingRoomList from '../ChatRoomList'
-import Chat from '../Chat'
-import UpperMenu from '../UpperMenu'
 import TimelineStack from './TimelineStack';
-function HomeScreen() {
-  return (
-    <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
-      <Text>Home!</Text>
-    </View>
-  );
-}
-
-function SettingsScreen() {
-  return (
-    <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
-      <Text>Settings!</Text>
-    </View>
-  );
-}
-
+import { MakeBoard, ChatRoomList, Settings } from '../screens/index'
 const Tab = createBottomTabNavigator();
 
 export default function TabNavigator() {
@@ -60,8 +36,8 @@ export default function TabNavigator() {
     >
         <Tab.Screen name="타임라인" component={TimelineStack} />
         <Tab.Screen name="검색" component={SearchStack}/>
-        <Tab.Screen name="대화" component={ChattingRoomList} />
-        <Tab.Screen name="내정보" component={SettingsScreen} />
+        <Tab.Screen name="대화" component={ChatRoomList} />
+        <Tab.Screen name="내정보" component={Settings} />
         <Tab.Screen name="글작성" component={MakeBoard} />
       </Tab.Navigator>
   );

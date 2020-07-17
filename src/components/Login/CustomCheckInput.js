@@ -1,9 +1,8 @@
 import React, { Component } from 'react';
 import { StyleSheet, View, } from 'react-native';
-import {Item,Input,Icon} from 'native-base'
+import { Item, Input, Icon } from 'native-base'
 
 const styles = StyleSheet.create({
-
     inputView: {
         width: "100%",
         backgroundColor: "#FFFFFF",
@@ -15,17 +14,17 @@ const styles = StyleSheet.create({
     },
 });
 
-const CustomCheckInput = ({ label, secure, onChangeText, onSubmitEditing, setRefer ,flag, value }) => {
+const CustomCheckInput = ({ label, secure, onChangeText, onSubmitEditing, setRefer, flag, value }) => {
     return (
         <View style={styles.inputView} >
             <Item style={{ borderColor: flag ? 'skyblue' : 'purple' }}>
-                <Input 
+                <Input
                     secureTextEntry={secure}
                     autoCapitalize='none'
-                    value={value} 
+                    value={value}
                     placeholder={label}
                     placeholderTextColor={'purple'}
-                    style={{ color: flag ? 'skyblue' : 'purple' }} 
+                    style={{ color: flag ? 'skyblue' : 'purple' }}
                     onChangeText={(text) => onChangeText(text)} />
                 {
                     flag ?
@@ -37,7 +36,5 @@ const CustomCheckInput = ({ label, secure, onChangeText, onSubmitEditing, setRef
         </View>
     );
 }
-
-
 
 export default CustomCheckInput; 

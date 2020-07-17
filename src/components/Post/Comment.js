@@ -1,7 +1,7 @@
 import React from 'react';
 import { View, Text, StyleSheet, TouchableOpacity, Alert } from 'react-native';
 import { Icon, ActionSheet, Toast } from 'native-base'
-import computeTime from './modules/computeTime'
+import computeTime from '../../modules/computeTime'
 import axios from 'axios'
 const styles = StyleSheet.create({
     root: {

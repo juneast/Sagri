@@ -1,13 +1,10 @@
 import React, { useState, useEffect } from 'react';
-import { View, StyleSheet, Button, ScrollView, FlatList, TextInput, TouchableOpacity, Alert } from 'react-native'
-import { Text, Icon, Spinner, Footer, Toast, Root, ActionSheet } from 'native-base';
-import Tag from './Tag'
-import Comment from './Comment'
+import { View, StyleSheet, Button, ScrollView, TextInput, TouchableOpacity, Alert } from 'react-native'
+import { Text, Icon, Spinner, Toast, Root, ActionSheet } from 'native-base';
+import {Tag, Comment} from '../../components/index'
 import axios from 'axios'
-import computeTime from './modules/computeTime'
-import PostHeader from './components/PostHeader'
+import computeTime from '../../modules/computeTime'
 
-import PickerExample from './components/Sample'
 const Post = ({ route, navigation }) => {
     const [state, setState] = useState({
         isLoading: false,

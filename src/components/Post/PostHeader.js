@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import {  StyleSheet, TouchableOpacity, Text } from 'react-native'
 import { Header, Icon} from 'native-base'
 import axios from 'axios';
-import Action from '../Action'
+import Action from './Action'
 
 const styles = StyleSheet.create({
 

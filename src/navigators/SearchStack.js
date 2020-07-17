@@ -1,7 +1,5 @@
 import React, { Component } from 'react';
-import Search from '../screens/Search'
-import SearchResult from '../screens/SearchResult'
-import { Text } from 'react-native';
+import {Search,SearchResult} from '../screens/index'
 
 import { createStackNavigator } from '@react-navigation/stack'
 

@@ -1,12 +1,8 @@
 import React, { Component } from 'react';
 import { NavigationContainer } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack'
-
-import LoginScreen from '../screens/LoginScreen'
-import ForgetScreen from '../screens/ForgetScreen'
-import SignUpScreen from '../screens/SignUpScreen'
+import {LoginScreen, ForgetScreen, SignUpScreen, EmailAuth} from '../screens/index'
 import TimelineNavigator from './TimelineNavigator';
-import EmailAuth from '../screens/EmailAuth'
 const Stack = createStackNavigator();
 
 const LoginNavigator = ()=> {

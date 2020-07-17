@@ -1,7 +1,6 @@
 import React, { Component } from 'react';
-import { StyleSheet, TouchableOpacity, Text } from 'react-native';
+import { StyleSheet, Text } from 'react-native';
 import {Button} from 'native-base'
-import { Hoshi } from 'react-native-textinput-effects';
 
 const styles = StyleSheet.create({
     loginBtn: {

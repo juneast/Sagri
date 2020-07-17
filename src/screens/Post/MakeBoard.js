@@ -1,8 +1,9 @@
 import React, { Component } from 'react';
-import { Image, View, StyleSheet, TextInput, TouchableOpacity, Text } from 'react-native';
+import { View, StyleSheet, TextInput, TouchableOpacity, Text } from 'react-native';
 import { Header } from 'native-base'
 import axios from 'axios'
-import Action from '../Action'
+import { Action } from '../../components/index'
+
 const styles = StyleSheet.create({
     root: {
         backgroundColor: "#fff",
@@ -31,16 +32,19 @@ const styles = StyleSheet.create({
         elevation: 3,
     }
 })
-const UpdateBoard = ({ route, navigation }) => {
-    const [title, setTitle] = React.useState(route.params.post.title);
-    const [content, setContent] = React.useState(route.params.post.content);
-    const [tag, setTag] = React.useState(route.params.post.tag);
+const MakeBoard = ({ route, navigation }) => {
+    const [title, setTitle] = React.useState('');
+    const [content, setContent] = React.useState('');
+    const [tag, setTag] = React.useState('');
 
     const sendPost = async () => {
         try {
             const response = await axios({
-                url: global.API_URI + "/api/post/" + route.params.post.postid,
-                method: 'put',
+                url: global.API_URI + "/api/post",
+                method: 'post',
+                headers: {
+                    'x-access-token': global.token
+                },
                 data: {
                     title,
                     content,
@@ -48,7 +52,7 @@ const UpdateBoard = ({ route, navigation }) => {
                 }
             })
             if (response.status === 200) {
-                route.params.isChange();
+                //route.params.onMake();
                 navigation.goBack(null);
             } else {
                 alert("실패")
@@ -62,9 +66,9 @@ const UpdateBoard = ({ route, navigation }) => {
     return (
         <View style={{ width: "100%", height: "100%" }}>
             <Header style={styles.header}>
-                <Action setTag = {setTag} firstItem = {tag}/>
+                <Action setTag = {setTag}/>
                 <TouchableOpacity style={{position:"absolute", right:10, padding:10}}disabled={title === "" || content === "" || tag === "" ? true : false} onPress={() => sendPost()}>
-                    <Text style={{ color: title === "" || content === "" || tag === "" ? "#ccc" : "black" }}>수정</Text>
+                    <Text style={{ color: title === "" || content === "" || tag === "" ? "#ccc" : "black" }}>등록</Text>
                 </TouchableOpacity>
             </Header>
             <View style={styles.root}>
@@ -89,4 +93,4 @@ const UpdateBoard = ({ route, navigation }) => {
 }
 
 
-export default UpdateBoard;
+export default MakeBoard;

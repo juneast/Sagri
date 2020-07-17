@@ -1,9 +1,8 @@
 import React, { Component,useRef } from 'react';
-import { StyleSheet, Text, View, TextInput, TouchableOpacity } from 'react-native';
-import { Hoshi } from 'react-native-textinput-effects';
+import { StyleSheet, Text, View, TouchableOpacity } from 'react-native';
 import axios from 'axios';
-import CustomInput from '../components/CustomInput'
-import CustomButton from '../components/CustomButton'
+import { CustomButton, CustomInput } from '../../components/index'
+
 const styles = StyleSheet.create({
   container: {
     flex: 1,

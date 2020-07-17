@@ -1,11 +1,11 @@
 import React, { useEffect } from 'react';
 import { View, Text, StyleSheet, TouchableWithoutFeedback, TouchableOpacity, TextInput, AsyncStorage, ScrollView } from 'react-native';
-import { Container, Header, Item, Input, Icon, Button, Spinner } from 'native-base';
+import { Header, Item, Input, Icon, Spinner } from 'native-base';
 import axios from 'axios'
 const styles = StyleSheet.create({
     root: {
         backgroundColor: '#fff',
-        height:"100%"
+        height: "100%"
     },
     searchBar: {
         alignItems: "center",
@@ -35,9 +35,9 @@ const RecentSearch = ({ content, index, handleDelete, handleClick }) => {
     return (
         <TouchableWithoutFeedback onPress={() => handleClick(content.slice(39))}>
             <View style={{ ...styles.middelView, borderTopColor: "#ccc", borderTopWidth: StyleSheet.hairlineWidth }}>
-                <Text style={{width:300}}>{content.slice(39)}</Text>
+                <Text style={{ width: 300 }}>{content.slice(39)}</Text>
                 <View style={{ flexDirection: "row", alignItems: "center" }}>
-                    <Text style={{ color: "#ccc", fontSize: 13, marginRight: 10 }}>{content.slice(3,10)}</Text>
+                    <Text style={{ color: "#ccc", fontSize: 13, marginRight: 10 }}>{content.slice(3, 10)}</Text>
                     <TouchableOpacity style={{ padding: 10 }} onPress={() => handleDelete(index)}><Icon name="close" style={{ color: "#ccc", fontSize: 20 }} /></TouchableOpacity>
                 </View>
             </View>
@@ -97,15 +97,15 @@ const Search = ({ tagName, navigation, route }) => {
     };
     const handleInsertList = () => {
         const date = new Date()
-        setState({ isStore: true, searchList: state.searchList.concat([date+content]) })
+        setState({ isStore: true, searchList: state.searchList.concat([date + content]) })
         navigation.navigate("SearchResult", { name: content, handleInsert: handleInsertListInResult })
         setContent("");
     }
     const handleDeleteList = async (index) => {
-        setState({isStore : true , searchList : state.searchList.filter((item, ind) => index !== ind)});
+        setState({ isStore: true, searchList: state.searchList.filter((item, ind) => index !== ind) });
     }
     const handleDeleteAll = async () => {
-        setState({searchList : [] });
+        setState({ searchList: [] });
         await AsyncStorage.removeItem('searchData')
     }
     const handleInsertListInResult = async (item) => {
@@ -123,20 +123,20 @@ const Search = ({ tagName, navigation, route }) => {
             }
             let result = str.split(",");
             const date = new Date()
-            result.push(date+item);
+            result.push(date + item);
             console.log(result);
             await AsyncStorage.setItem(
                 'searchData',
                 JSON.stringify(result)
             );
-            setState({searchList : result});
+            setState({ searchList: result });
         } catch (error) {
             // Error retrieving data
         }
     }
     const handleClick = (item) => {
         const date = new Date()
-        setState({ isStore: true, searchList: state.searchList.concat([date+item]) })
+        setState({ isStore: true, searchList: state.searchList.concat([date + item]) })
         navigation.navigate("SearchResult", { name: item, handleInsert: handleInsertListInResult })
         setContent("");
     }
@@ -149,24 +149,24 @@ const Search = ({ tagName, navigation, route }) => {
                 </View>
                 <TouchableWithoutFeedback onPress={() => setContent("")} ><Text style={{ marginRight: 10 }}>취소</Text></TouchableWithoutFeedback>
             </Header>
-                <ScrollView style={{marginBottom:150}}>
-                    {
-                        state.searchList.length === 0 ?
-                            <View style={{ height: 150, justifyContent: "center", alignItems: "center" }}><Text>최근 검색한 내용이 없습니다.</Text></View>
-                            :
-                            <View style={{ ...styles.middelView, padding: 10 }}>
-                                <Text style={styles.middleViewText}>최근검색</Text>
-                                <TouchableWithoutFeedback onPress={() => handleDeleteAll()}><Text style={styles.middleViewText}>전체삭제</Text></TouchableWithoutFeedback>
-                            </View>
+            <ScrollView style={{ marginBottom: 150 }}>
+                {
+                    state.searchList.length === 0 ?
+                        <View style={{ height: 150, justifyContent: "center", alignItems: "center" }}><Text>최근 검색한 내용이 없습니다.</Text></View>
+                        :
+                        <View style={{ ...styles.middelView, padding: 10 }}>
+                            <Text style={styles.middleViewText}>최근검색</Text>
+                            <TouchableWithoutFeedback onPress={() => handleDeleteAll()}><Text style={styles.middleViewText}>전체삭제</Text></TouchableWithoutFeedback>
+                        </View>
 
-                    }
-                    <View style={{borderBottomWidth:StyleSheet.hairlineWidth}}>
+                }
+                <View style={{ borderBottomWidth: StyleSheet.hairlineWidth }}>
                     {state.searchList.map((item, index) => (
                         <RecentSearch content={item} index={index} handleDelete={handleDeleteList} handleClick={handleClick} />
                     )
                     ).reverse()}
-                    </View>
-                </ScrollView>
+                </View>
+            </ScrollView>
         </View>
     );
 }

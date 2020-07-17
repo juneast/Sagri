@@ -1,8 +1,8 @@
 import React, {useEffect} from 'react';
-import { View, Text, StyleSheet, TouchableWithoutFeedback,TouchableOpacity,TextInput,FlatList,ScrollView } from 'react-native';
-import { Container, Header, Item, Input, Icon, Button, Spinner ,ListItem} from 'native-base';
+import { View, Text, StyleSheet, TouchableWithoutFeedback,TouchableOpacity,TextInput,ScrollView } from 'react-native';
+import { Header, Item, Input, Icon, Button, Spinner} from 'native-base';
 import axios from 'axios'
-import PostCard from '../PostCard'
+import { PostCard } from '../../components/index'
 const styles = StyleSheet.create({
     root: {
         
@@ -125,16 +125,8 @@ const SearchResult = ({ tagName, navigation, route }) => {
                 <ScrollView style={{marginBottom:110}}>
                     <View style={{borderTopWidth:StyleSheet.hairlineWidth, backgroundColor:"#fff",marginBottom:10,paddingLeft:20, padding:10}}><Text >{`검색결과 : ${state.data.length}`}</Text></View>
                     {state.data.map((item,index)=>(
-                        <ListItem key={index}
-                        rippleSequential
-                            noIndent
-                            style={{padding:0, backgroundColor:"#fff",width:"100%",margin:0}}
-                            onPress={() => {
                 
-                                navigation.navigate({ name: 'Details', params: { item, handlePostChange: handlePostChange } })
-                            }}>
-                            <PostCard key={index} post={item}/>
-                        </ListItem>
+                            <PostCard key={index} post={item} navigation={navigation} handlePostChange={handlePostChange}/>
                 
                     )
                         

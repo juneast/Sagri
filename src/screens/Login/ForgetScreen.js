@@ -1,20 +1,18 @@
 import React, { Component } from 'react';
-import {View, StyleSheet} from 'react-native'
-import CustomInput from '../components/CustomInput'
-import CustomButton from '../components/CustomButton'
+import { View, StyleSheet } from 'react-native'
+import { CustomButton, CustomInput } from '../../components/index'
 
 const ForgetScreen = ({ navigation }) => {
   const [userId, setUserId] = React.useState("");
   const [password, setPassword] = React.useState("");
-  const handleButtonClick = ()=>{
+  const handleButtonClick = () => {
     navigation.goBack();
   }
   return (
     <View style={styles.container}>
       <CustomInput label="아이디" secure={false} onChangeText={setUserId} />
       <CustomInput label="비밀번호" secure={true} onChangeText={setPassword} />
-      <CustomButton label="비밀번호 찾기" onPress={handleButtonClick}/>
-    
+      <CustomButton label="비밀번호 찾기" onPress={handleButtonClick} />
     </View >
   );
 }
