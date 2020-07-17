@@ -81,7 +81,7 @@ const LoginScreen = ({ navigation }) => {
 
         <Text style={{ ...styles.forgot, marginLeft: 10, marginRight: 10 }}>/</Text>
         <TouchableOpacity
-          onPress={() => navigation.navigate("SignUp")}>
+          onPress={() => navigation.navigate("EmailAuth")}>
           <Text style={styles.forgot}>회원가입</Text>
         </TouchableOpacity>
       </View>

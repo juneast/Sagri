@@ -3,7 +3,7 @@ import { View, TextInput, StyleSheet, TouchableOpacity, Text } from 'react-nativ
 import { Hoshi } from 'react-native-textinput-effects';
 import { Button, Icon, Item,  Input } from 'native-base'
 import axios from 'axios';
-import EmailAuth from '../components/EmailAuth'
+import EmailAuth from '../screens/EmailAuth'
 import CustomButton from '../components/CustomButton'
 import CustomCheckInput from '../components/CustomCheckInput'
 function isEmail(asValue) {
@@ -20,8 +20,6 @@ const SignUpScreen = ({navigation})=>{
   const [id, setId] = React.useState({ text : "", flag : false });
   const [password, setPassword] = React.useState({ text : "", flag : false });
   const [passwordCheck, setPasswordCheck] = React.useState({ text : "", flag : false });
-  const [toggleAuth, setToggleAuth] = React.useState(false);
-  const [emailAuth, setEmailAuth] = React.useState(false);
 
   const handleIdChange = (text) => {
     setId({ text : text, flag : text.length<5 ? false : true})
@@ -39,9 +37,7 @@ const SignUpScreen = ({navigation})=>{
       return alert("비밀번호는 8 ~ 15자 영문, 숫자 조합이어야 합니다.")
     } else if (!passwordCheck.flag) {
       return alert("비밀번호와 비밀번호 확인이 다릅니다.")
-    } else if (!emailAuth){
-      return alert("이메일을 인증해주세요")
-    }
+    } 
     try {
       const response = await axios({
         url: global.API_URI + "/api/user/register",
@@ -53,7 +49,7 @@ const SignUpScreen = ({navigation})=>{
       })
       if (response.status === 200) {
         alert("회원가입에 성공했습니다.")
-        navigation.goBack();
+        navigation.reset({ index: 0, routes: [{ name: "Login" }] })
       }
     } catch (err) {
       if (err.response.status === 409) {
@@ -64,30 +60,22 @@ const SignUpScreen = ({navigation})=>{
       console.log(err);
     }
   }
-  const handleEmailAuth = () => {
-    setEmailAuth(true)
-    setToggleAuth(false)
-  }
-
     return (
       <View style={styles.container}>
+      <View style={{flexDirection:"row", alignSelf:"flex-start", marginLeft:20, alignItems:"center"}}>
+        <View style={{height:30,width:30, backgroundColor:"skyblue", borderRadius:15, justifyContent:"center",alignItems:"center"}}>
+        <Text style={{color:"white", fontSize:20}}>1</Text>
+        </View>
+        <View style={{width:20, height:2,backgroundColor:"skyblue"}}></View>
+        <View style={{height:30,width:30, backgroundColor:"skyblue", borderRadius:15, justifyContent:"center",alignItems:"center"}}>
+        <Text style={{color:"white", fontSize:20}}>2</Text>
+        </View>
+        
+        </View>
+        <Text style={{ alignSelf:"flex-start", marginLeft:20,color:"skyblue",fontSize:20, marginTop:20,marginBottom:50}}>정보 입력</Text>
         <CustomCheckInput label="아이디" flag={id.flag} onChangeText={handleIdChange} value={id.text}/> 
         <CustomCheckInput label="비밀번호" secure={true} flag={password.flag} onChangeText={handlePasswordChange} value={password.text}/> 
         <CustomCheckInput label="비밀번호 확인" secure={true} flag={passwordCheck.flag} onChangeText={handlePasswordCheckChange} value={passwordCheck.text}/> 
-        <View>
-          {emailAuth ?
-            <View style={{flexDirection:"row", alignItems:"center"}}>
-              <Icon style={{ marginTop: 20, marginBottom: 10, color: "green",fontSize:15 }} name="checkmark" />
-              <Text style={{ marginTop: 20, marginBottom: 10, color: "green" }}>이메일 인증완료</Text>
-            </View>
-            :
-            <TouchableOpacity style={{ justifyContent: 'center' }} onPress={() => setToggleAuth(!toggleAuth)}>
-              <Text style={{ marginTop: 20, marginBottom: 10, color:"skyblue" }}>이메일 인증하기</Text>
-            </TouchableOpacity>
-          }
-
-        </View>
-        {toggleAuth ? <EmailAuth complete={handleEmailAuth} /> : null}
         <CustomButton label="회원가입" onPress ={handleRegister}/>
 
       </View>
@@ -101,7 +89,7 @@ const styles = StyleSheet.create({
     backgroundColor: '#FFFFFF',
     alignItems: 'center',
     padding: 50,
-    paddingTop: 170,
+    paddingTop: 100,
   },
   inputView: {
     width: "80%",
