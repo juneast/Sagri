@@ -145,7 +145,7 @@ const Search = ({ tagName, navigation, route }) => {
             <Header style={{ backgroundColor: "#fff", alignItems: "center", height: "auto", width: "auto" }}>
                 <View style={styles.searchBar}>
                     <Icon name="ios-search" style={{ marginLeft: 10 }} />
-                    <Input autoFocus={true} style={{ fontSize: 14 }} value={content} placeholder="Search" placeholderTextColor="#ccc" onChange={(item) => setContent(item.nativeEvent.text)} onSubmitEditing={() => handleInsertList()} />
+                    <Input autoCapitalize="none"  autoFocus={true} style={{ fontSize: 14 }} value={content} placeholder="Search" placeholderTextColor="#ccc" onChange={(item) => setContent(item.nativeEvent.text)} onSubmitEditing={() => handleInsertList()} />
                 </View>
                 <TouchableWithoutFeedback onPress={() => setContent("")} ><Text style={{ marginRight: 10 }}>취소</Text></TouchableWithoutFeedback>
             </Header>

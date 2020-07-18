@@ -63,7 +63,7 @@ const PostCard = ({ post,handleTagClick ,navigation, handlePostChange}) => {
       <View style={styles.container}>
         <Tag tagName={post.tag} handleTagClick={handleTagClick}/>
         <Text style={{alignSelf:"flex-start"}}>{post.title}</Text>
-        <Text style={styles.content}>{post.content}</Text>
+        <Text numberOfLines={2} style={styles.content}>{post.content}</Text>
         <Text style={styles.author}>{post.author.userId}</Text>
       </View>
       <View style={styles.footer}>

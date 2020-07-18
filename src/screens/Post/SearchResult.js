@@ -1,6 +1,6 @@
 import React, {useEffect} from 'react';
 import { View, Text, StyleSheet, TouchableWithoutFeedback,TouchableOpacity,TextInput,ScrollView } from 'react-native';
-import { Header, Item, Input, Icon, Button, Spinner} from 'native-base';
+import { Header, Item, Input, Icon, Button, Spinner, Toast} from 'native-base';
 import axios from 'axios'
 import { PostCard } from '../../components/index'
 const styles = StyleSheet.create({
@@ -80,12 +80,6 @@ const SearchResult = ({ tagName, navigation, route }) => {
             setTopButton(false)
         }
     }
-    const _renderItem = ({ item, index }) => (
-        <TouchableOpacity key={index} >
-        <Text style={{height:100}}>왜안돼씨발아</Text>
-            <PostCard key={index} post={item}/>
-        </TouchableOpacity>
-    )
 
     const getPost = async () => {
         try {
@@ -105,6 +99,15 @@ const SearchResult = ({ tagName, navigation, route }) => {
         }
     }
     const handleInsertList = ()=> {
+        if(content===""){
+            Toast.show({
+                text: "최소 한 글자 이상 입력해주세요.",
+                position: "bottom",
+                style: { width: "70%", bottom: '30%', backgroundColor: "rgba(0,0,0,0.5)", borderRadius: 25, alignSelf: "center" },
+                textStyle: { textAlign: "center" }
+            })
+            return;
+        }
         setState({isLoading:true,changeNum:0,data:state.data})
         route.params.handleInsert(content)
     }
@@ -113,7 +116,7 @@ const SearchResult = ({ tagName, navigation, route }) => {
             <Header style={{ backgroundColor: "#fff", alignItems: "center", height: "auto", width: "auto" }}>
                 <View style={styles.searchBar}>
                     <Icon name="ios-search" style={{ marginLeft: 10 }} />
-                    <Input style={{fontSize:14}}value={content} placeholder="Search" placeholderTextColor="#ccc" onChange={(item)=>setContent(item.nativeEvent.text)} onSubmitEditing={()=>handleInsertList()}/>
+                    <Input autoCapitalize="none"  style={{fontSize:14}}value={content} placeholder="Search" placeholderTextColor="#ccc" onChange={(item)=>setContent(item.nativeEvent.text)} onSubmitEditing={()=>handleInsertList()}/>
                 </View>
                 <TouchableWithoutFeedback onPress={()=>navigation.goBack()} ><Text style={{ marginRight: 10 }}>취소</Text></TouchableWithoutFeedback>
             </Header>
