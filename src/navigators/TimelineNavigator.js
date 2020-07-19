@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { Root } from 'native-base';
 import { createStackNavigator } from '@react-navigation/stack'
 import TabNavigator from './TabNavigator'
-import { Post , Chat, UpdateBoard} from '../screens/index'
+import { Post , Chat, UpdateBoard,SelectPhoto} from '../screens/index'
 
 const Stack = createStackNavigator();
 
@@ -14,6 +14,7 @@ const TimelineNavigator = () => {
         <Stack.Screen name="Details" component={Post} />
         <Stack.Screen name="Chat" component={Chat} options={{ headerShown: false }} />
         <Stack.Screen name="글수정" component={UpdateBoard} options={{ headerShown: false }} />
+        <Stack.Screen name="SelectPhoto" component={SelectPhoto} options={{ headerShown: false }} />
       </Stack.Navigator>
     </Root>
   );

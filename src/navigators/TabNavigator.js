@@ -3,7 +3,7 @@ import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import {Icon} from 'native-base'
 import SearchStack from '../navigators/SearchStack'
 import TimelineStack from './TimelineStack';
-import { MakeBoard, ChatRoomList, Settings } from '../screens/index'
+import { ChatRoomList, Settings, MakeBoard } from '../screens/index'
 const Tab = createBottomTabNavigator();
 
 export default function TabNavigator() {

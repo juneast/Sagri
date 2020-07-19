@@ -1,9 +1,10 @@
 import React, { useState, useEffect } from 'react';
-import { View, StyleSheet, Button, ScrollView, TextInput, TouchableOpacity, Alert } from 'react-native'
+import { View, StyleSheet, Button, ScrollView, TextInput, TouchableOpacity, Alert, TouchableWithoutFeedback, Image } from 'react-native'
 import { Text, Icon, Spinner, Toast, Root, ActionSheet } from 'native-base';
-import {Tag, Comment} from '../../components/index'
+import { Tag, Comment } from '../../components/index'
 import axios from 'axios'
 import computeTime from '../../modules/computeTime'
+import constants from '../../constants'
 
 const Post = ({ route, navigation }) => {
     const [state, setState] = useState({
@@ -217,6 +218,24 @@ const Post = ({ route, navigation }) => {
                             <Text>{computeTime(state.post.createTime)}</Text>
                             <View style={styles.divider}></View>
                             <Text>{state.post.content}</Text>
+                            {state.post.photos.map((item, index) => (
+                                <TouchableWithoutFeedback
+                                    key={index}
+                                //onPress={() => changeSelected(item)}
+                                >
+                                    <View style={{ alignItems: "center", marginTop: 15, marginBottom: 15 }}>
+                                        <Image
+                                            style={{
+                                                width: (constants.width) - constants.width / 10,
+                                                height: constants.width,
+                                                borderRadius: 5
+                                            }}
+                                            source={{ uri: item }}
+                                        />
+                                    </View>
+
+                                </TouchableWithoutFeedback>
+                            ))}
                             <View style={styles.otherInfo}>
                                 <TouchableOpacity onPress={() => {
                                     like ? postUnlikeRequest() : postLikeRequest();

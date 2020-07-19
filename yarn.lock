@@ -1151,6 +1151,14 @@
   resolved "https://registry.yarnpkg.com/@react-native-community/masked-view/-/masked-view-0.1.6.tgz#c7f2ac187c1f25aa8c30d11baa8f4398eca3bb84"
   integrity sha512-PpMoeXwPUoldCRKDuSi+zK5rT+sJTW6ri6RdGPkSKRzU77Q1d9IaR0O5IKvBj0XSdL3p+dcOa05gk35aGDffBQ==
 
+"@react-navigation/bottom-tabs@^5.7.1":
+  version "5.7.1"
+  resolved "https://registry.yarnpkg.com/@react-navigation/bottom-tabs/-/bottom-tabs-5.7.1.tgz#d6b4e61676f8b4ab11864e792c819c56fde32a44"
+  integrity sha512-3LYc9XEEuaVpwj0tvJ1E1nTgI3iJzhhdaRR8xbOqK6ubh1ZgT4JiBeqBNsChgMaj4UAuO8b7pDnF1S49nDqZIQ==
+  dependencies:
+    color "^3.1.2"
+    react-native-iphone-x-helper "^1.2.1"
+
 "@react-navigation/core@^5.10.0":
   version "5.10.0"
   resolved "https://registry.yarnpkg.com/@react-navigation/core/-/core-5.10.0.tgz#aee9e22a5f0f458ebeadc155f347b13eb5ff5212"
@@ -2124,6 +2132,11 @@ convert-source-map@^1.7.0:
   dependencies:
     safe-buffer "~5.1.1"
 
+cookie@^0.3.1:
+  version "0.3.1"
+  resolved "https://registry.yarnpkg.com/cookie/-/cookie-0.3.1.tgz#e7e0a1f9ef43b4c8ba925c5c5a96e806d16873bb"
+  integrity sha1-5+Ch+e9DtMi6klxcWpboBtFoc7s=
+
 copy-descriptor@^0.1.0:
   version "0.1.1"
   resolved "https://registry.yarnpkg.com/copy-descriptor/-/copy-descriptor-0.1.1.tgz#676f6eb3c39997c2ee1ac3a924fd6124748f578d"
@@ -2502,6 +2515,14 @@ expo-asset@~8.1.5:
     path-browserify "^1.0.0"
     url-parse "^1.4.4"
 
+expo-camera@~8.2.0:
+  version "8.2.0"
+  resolved "https://registry.yarnpkg.com/expo-camera/-/expo-camera-8.2.0.tgz#9c849f0dc409e1fe6ee886f479e0ee0050b6d386"
+  integrity sha512-wGVqQVVR4YCkHuI7u+qloI1p2UbYwpU8hs0IEM+1Th4JQekAPUEfOmJI6ZHGj36El8f87ghRed2MXzOssn4hHg==
+  dependencies:
+    lodash "^4.6.0"
+    prop-types "^15.6.0"
+
 expo-constants@~9.0.0:
   version "9.0.0"
   resolved "https://registry.yarnpkg.com/expo-constants/-/expo-constants-9.0.0.tgz#35c600079ee91d38fe4f56375caae6e90f122fdd"
@@ -2552,6 +2573,11 @@ expo-location@~8.1.0:
   integrity sha512-G9JvsK1t9Z5Iybf+FCG81Jgm9Ee9leqpazxOPVabUJEWu/55Iex3yLGX04BuIA4ozAlJKBPzkhPdyqKdC7zrSw==
   dependencies:
     invariant "^2.2.4"
+
+expo-media-library@~8.1.0:
+  version "8.1.0"
+  resolved "https://registry.yarnpkg.com/expo-media-library/-/expo-media-library-8.1.0.tgz#f5d4b24819aa518e69d971f92b55c12f60c85ba5"
+  integrity sha512-2oO6UtV4akgX9o5Ok9BRwLh5NZzDk43QBW5RP/EHVSzuVn2yn7IXstmr9wnTl1BpqkPoV8u6w3g9EeU1I2Jljw==
 
 expo-permissions@~8.1.0:
   version "8.1.0"
@@ -4649,6 +4675,14 @@ range-parser@~1.2.1:
   version "1.2.1"
   resolved "https://registry.yarnpkg.com/range-parser/-/range-parser-1.2.1.tgz#3cf37023d199e1c24d1a55b84800c2f3e6468031"
   integrity sha512-Hrgsx+orqoygnmhFbKaHE6c296J+HTAQXoxEF6gNupROmmGJRoyzfG3ccAveqCBrwr/2yxQ5BVd/GTl5agOwSg==
+
+react-cookies@^0.1.1:
+  version "0.1.1"
+  resolved "https://registry.yarnpkg.com/react-cookies/-/react-cookies-0.1.1.tgz#2a35807e04f5a13f58ccd1a9fb66574506873c88"
+  integrity sha512-PP75kJ4vtoHuuTdq0TAD3RmlAv7vuDQh9fkC4oDlhntgs9vX1DmREomO0Y1mcQKR9nMZ6/zxoflaMJ3MAmF5KQ==
+  dependencies:
+    cookie "^0.3.1"
+    object-assign "^4.1.1"
 
 react-devtools-core@^3.6.3:
   version "3.6.3"

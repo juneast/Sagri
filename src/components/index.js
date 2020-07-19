@@ -7,6 +7,7 @@ import ListHeader from './Post/ListHeader'
 import PostCard from './Post/PostCard'
 import PostHeader from './Post/PostHeader'
 import Tag from './Post/Tag'
+import ListHeaderPhoto from './Photo/ListHeaderPhoto'
 
 export {
     Action,
@@ -17,5 +18,6 @@ export {
     ListHeader,
     PostCard,
     PostHeader,
-    Tag
+    Tag,
+    ListHeaderPhoto
 }

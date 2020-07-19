@@ -76,7 +76,6 @@ export default class Timeline extends React.Component {
         this.props.navigation.push('Timeline', { url })
     }
     _handleLoadMore = async () => {
-
         if (!this.state.isMore || this.state.moreLoading) return null;
         const { data, selectedValue } = this.state;
         const { params } = this.props.route;
