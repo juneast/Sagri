@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { View, StyleSheet, Button, ScrollView, TextInput, TouchableOpacity, Alert, TouchableWithoutFeedback, Image } from 'react-native'
 import { Text, Icon, Spinner, Toast, Root, ActionSheet } from 'native-base';
 import { Tag, Comment } from '../../components/index'
@@ -7,6 +7,7 @@ import computeTime from '../../modules/computeTime'
 import constants from '../../constants'
 
 const Post = ({ route, navigation }) => {
+    const ref = useRef(null);
     const [state, setState] = useState({
         isLoading: false,
         isChange: false,
@@ -15,7 +16,7 @@ const Post = ({ route, navigation }) => {
     const [comments, setComments] = useState([]);
     const [content, setContent] = useState("");
     const [like, setLike] = useState(route.params.item.likes);
-
+    const [editable, setEditable] = useState(-1)
 
     const getPostRequest = async () => {
         try {
@@ -43,17 +44,89 @@ const Post = ({ route, navigation }) => {
                 method: 'get',
 
             })
-            if (response.status === 200) {
-                setComments(response.data)
-            }
+            ;
+            setComments(arrangeComment(response.data))
         } catch (err) {
             alert("조회에 실패했습니다!")
             console.log(err);
         }
     }
+    const arrangeComment = (arr)=>{
+        let temp = [];
+        arr = arr.filter((item,index)=>{
+            if(item.parentid!==0){
+                temp.push(item);
+                return false;
+            } else {
+                arr[index].child = [];
+                return true;
+            }
+            
+        })
+        temp.forEach((item)=>{
+            let ind = -1;
+            arr.some((cont,index)=>{
+                if(cont.commentid===item.parentid){
+                    arr[index].child.push(item);
+                    ind = index;
+                }
+                return cont.commentid===item.parentid
+            })
+            if(ind===-1){
+                arr.push({
+                    "content" : "삭제된 댓글입니다.",
+                    "commentid" : item.parentid,
+                    "child" : [item],
+                    "parentid":0,
+                    "deleted":true
+                })
+            }
+        })
+        arr.sort(function(a,b){
+            return b.commentid-a.commentid;
+        })
+        return arr;
+    }
     const handleRemoveComment = () => {
         route.params.handlePostChange(state.post.postid)
         getCommentRequest();
+    }
+    const handleLikeComment= (index)=>{
+        const temp = comments.map((item)=>{
+            if(item.commentid===index){
+                if(item.likes){
+                    item.likes=false;
+                    item.likeCount--;
+                }
+                else {
+                    item.likes=true;
+                    item.likeCount++;
+                }
+            }
+            return item;
+        })
+        setComments(temp);
+    }
+    const handleLikeCommentComment= (cid, pid)=>{
+        const temp = comments.map((item)=>{
+            if(item.commentid===pid){
+                item.child = item.child.map((next)=>{
+                    if(next.commentid===cid){
+                        if(next.likes){
+                            next.likes=false;
+                            next.likeCount--;
+                        }
+                        else {
+                            next.likes=true;
+                            next.likeCount++;
+                        }
+                    }
+                    return next;
+                })
+            }
+            return item;
+        })
+        setComments(temp);
     }
     const postCommentRequest = async () => {
         try {
@@ -61,7 +134,8 @@ const Post = ({ route, navigation }) => {
                 url: global.API_URI + "/api/comment/" + state.post.postid,
                 method: 'post',
                 data: {
-                    content
+                    content,
+                    parentid: editable === -1 ? 0 : editable
                 }
             })
             if (response.status === 200) {
@@ -154,7 +228,9 @@ const Post = ({ route, navigation }) => {
             getCommentRequest();
 
         }
-
+        if (editable !== -1) {
+            ref.current.focus();
+        }
     });
 
     const handleMoreOption = (index) => {
@@ -236,28 +312,51 @@ const Post = ({ route, navigation }) => {
 
                                 </TouchableWithoutFeedback>
                             ))}
+
+
                             <View style={styles.otherInfo}>
                                 <TouchableOpacity onPress={() => {
                                     like ? postUnlikeRequest() : postLikeRequest();
                                 }}
-                                    style={{ flexDirection: "row" }}
+                                    style={styles.touchContainer}
                                 >
                                     <Icon active name="thumbs-up" style={{ color: like ? "skyblue" : "#ccc", fontSize: 25 }} />
                                 </TouchableOpacity>
                                 <View style={styles.dividerCol}></View>
-                                <Icon name="chatboxes" style={{ color: "#ccc", fontSize: 25 }} />
+                                <TouchableOpacity onPress={() => {
+                                    setEditable(0)
+                                }}
+                                    style={styles.touchContainer}
+                                >
+                                    <Icon name="chatboxes" style={{ color: "#ccc", fontSize: 25 }} />
+                                </TouchableOpacity>
                                 <View style={styles.dividerCol}></View>
-                                <Icon name="share" style={{ color: "#ccc", fontSize: 25 }} />
+                                <TouchableOpacity style={styles.touchContainer}>
+                                    <Icon name="share" style={{ color: "#ccc", fontSize: 25 }} />
+                                </TouchableOpacity>
                             </View>
+
+
+
                         </View>
                         <View style={styles.sagri}><Text style={styles.sagriText}>SAGRI</Text></View>
                         <View style={{ ...styles.sagri, height: "auto" }}>
-                            {comments.map((item, index) => <View key={index} style={{ width: "100%" }}><Comment key={index} info={item} onRemove={handleRemoveComment} /></View>)}
+                            {comments.map((item, index) => {
+                                //if(!item.child) console.log(item)
+                                return (
+                                    <View key ={index} style={{width:"100%"}}>
+                                    <Comment comment={item} onRemove={handleRemoveComment} onPress={setEditable} handleLikeComment={handleLikeComment}/>
+                                    { item.child.map((next, index) => {
+                                        return <Comment key={index} comment={next} onRemove={handleRemoveComment} onPress={setEditable} handleLikeComment={handleLikeCommentComment}/>
+                                    })}
+                                    </View>
+                                )
+                            })}
                         </View>
                     </ScrollView>
 
-                    <View style={styles.textInput}>
-                        <TextInput value={content} style={{ width: "90%" }} placeholder="댓글을 남겨주세요." onChangeText={(text) => setContent(text)} />
+                    <View style={{ ...styles.textInput, borderColor: "skyblue", borderWidth: 1 }}>
+                        <TextInput editable={editable === -1 ? false : true} onBlur={() => setEditable(-1)} ref={ref} value={content} style={{ width: "90%" }} placeholder="댓글을 남겨주세요." onChangeText={(text) => setContent(text)} />
                         <TouchableOpacity disabled={content === "" ? true : false} onPress={() => {
                             postCommentRequest();
                             setContent("");
@@ -292,14 +391,14 @@ const styles = StyleSheet.create({
     },
     otherInfo: {
         color: "#eee",
-        marginTop: 20,
-        marginBottom: 20,
         flexDirection: "row",
         justifyContent: "space-around"
     },
     dividerCol: {
         borderLeftColor: "#bbb",
         borderLeftWidth: 1,
+        height: 30,
+        alignSelf: "center"
     },
     sagri: {
         marginTop: 10,
@@ -319,11 +418,16 @@ const styles = StyleSheet.create({
         height: 50,
         width: "100%",
         backgroundColor: "white",
-        borderTopWidth: StyleSheet.hairlineWidth,
         flexDirection: "row",
         justifyContent: "space-between",
         alignItems: "center",
         padding: 10,
+    },
+    touchContainer: {
+        paddingTop: 15,
+        paddingBottom: 15,
+        width: constants.width / 4,
+        alignItems: "center"
     }
 });
 

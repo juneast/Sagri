@@ -7,10 +7,11 @@ const styles = StyleSheet.create({
     root: {
         paddingTop: 15,
         paddingLeft: 15,
-        paddingRight:15,
-        paddingBottom:5,
+        paddingRight: 15,
+        paddingBottom: 5,
         borderTopColor: "#DDD",
         borderTopWidth: StyleSheet.hairlineWidth,
+        width:"100%"
     },
     up: {
         color: "#AAA"
@@ -47,8 +48,37 @@ const styles = StyleSheet.create({
 
 
 
-const Comment = ({ info, onRemove }) => {
-    const comment = info;
+const Comment = ({ key, comment, onRemove, onPress, handleLikeComment }) => {
+    const commentLikeRequest = async () => {
+        try {
+            const response = await axios({
+                url: global.API_URI + "/api/comment/like?commentid=" + comment.commentid,
+                method: 'get',
+            })
+            if (response.status === 200) {
+                handleLikeComment(comment.commentid, comment.parentid);
+            }
+
+        } catch (err) {
+            alert("좋아요실패")
+            console.log(err);
+        }
+    }
+    const commentUnlikeRequest = async () => {
+        try {
+            const response = await axios({
+                url: global.API_URI + "/api/comment/unlike?commentid=" + comment.commentid,
+                method: 'get',
+            })
+            if (response.status === 200) {
+                handleLikeComment(comment.commentid, comment.parentid);
+            }
+
+        } catch (err) {
+            alert("좋아요취소실패")
+            console.log(err);
+        }
+    }
     const deleteCommentRequest = async () => {
         try {
             const response = await axios({
@@ -86,7 +116,7 @@ const Comment = ({ info, onRemove }) => {
                         "삭제",
                         "정말 삭제하시겠습니까?",
                         [
-                            { text: "확인", onPress : ()=>deleteCommentRequest()},
+                            { text: "확인", onPress: () => deleteCommentRequest() },
                             {
                                 text: "취소",
                                 style: "cancel"
@@ -107,25 +137,54 @@ const Comment = ({ info, onRemove }) => {
             }
         }
     }
+    const handleLikeClick = ()=>{
+        if(comment.likes){
+            commentUnlikeRequest();
+        } else {
+            commentLikeRequest();
+        }
+    }
     return (
-        <View style={styles.root}>
-            <Text style={styles.up}>{comment.author}</Text>
+        comment.deleted ?
+        <View style={{...styles.root,paddingBottom:15}}><Text style={{}}>{comment.content}</Text></View>
+        :
+        <View style={{
+            ...styles.root,
+            backgroundColor: !comment.parentid || comment.parentid === 0 ? "white" : "#eee",
+            paddingLeft: !comment.parentid || comment.parentid === 0 ? 15 : 40
+        }}>
+            <Text style={styles.up}>{comment.author.userId}</Text>
             <Text style={styles.middle}>{comment.content}</Text>
             <View style={styles.down}>
                 <View style={styles.downLeft}>
                     <Text style={styles.downLeftText}>{computeTime(comment.createTime)}</Text>
                     <Text style={styles.downLeftDivider}>·</Text>
-                    <View style={styles.downLeft}>
-                        <Icon name="thumbs-up" style={styles.downLeftIcon} />
-                        <Text style={styles.downLeftText}>좋아요</Text>
-                    </View>
-                    <Text style={styles.downLeftDivider}>·</Text>
-                    <View style={styles.downLeft}>
-                        <Icon name="chatbubbles" style={styles.downLeftIcon} />
-                        <Text style={styles.downLeftText}>대댓글</Text>
-                    </View>
+
+                    <TouchableOpacity style={styles.downLeft} onPress={()=>handleLikeClick()}>
+                        <Icon name="thumbs-up" style={{...styles.downLeftIcon, color:comment.likes?"skyblue":"#aaa"}} />
+                        <Text style={{...styles.downLeftText, color:comment.likes?"skyblue":"#aaa"}}>{comment.likeCount===0 ? "좋아요" : comment.likeCount}</Text>
+                    </TouchableOpacity>
+
+                    {
+                        !comment.parentid || comment.parentid === 0 ?
+                            <Text style={styles.downLeftDivider}>·</Text>
+                            :
+                            null
+                    }
+                    {
+                        !comment.parentid || comment.parentid === 0 ?
+                            <TouchableOpacity onPress={()=>onPress(comment.commentid)}>
+                            <View style={styles.downLeft}>
+                                <Icon name="chatbubbles" style={styles.downLeftIcon} />
+                                <Text style={styles.downLeftText}>대댓글</Text>
+                            </View>
+                            </TouchableOpacity>
+                            :
+                            null
+                    }
+
                 </View>
-                <TouchableOpacity style ={{padding:10}} onPress={() => ActionSheet.show(
+                <TouchableOpacity style={{ padding: 10 }} onPress={() => ActionSheet.show(
                     {
                         options: ["삭제"],
                         cancelButtonIndex: 2,
