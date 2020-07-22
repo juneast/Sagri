@@ -12,7 +12,7 @@ const styles = StyleSheet.create({
         flexDirection: "row",
         backgroundColor: "#fafafa",
         borderRadius: 20,
-        width: "90%",
+        width: "100%",
         margin: 10,
         height: 35,
         borderColor: "#777",
@@ -32,9 +32,7 @@ const styles = StyleSheet.create({
 })
 
 let flatRef = {};
-const SearchResult = ({ tagName, navigation, route }) => {
-    const [content, setContent] = React.useState(route.params.name)
-    const [topButton, setTopButton] = React.useState(false)
+const MyPosts = ({ tagName, navigation, route }) => {
     const [state, setState] = React.useState({
         data : [],
         isLoading : true,
@@ -44,7 +42,7 @@ const SearchResult = ({ tagName, navigation, route }) => {
 
     useEffect(() => {
         if(state.isLoading){
-            searchPostRequest();
+            getMyPostsRequest();
         }
         if(state.changeNum!==undefined && state.changeNum!==0){
             getPost();
@@ -52,10 +50,10 @@ const SearchResult = ({ tagName, navigation, route }) => {
 
     });
 
-    const searchPostRequest = async () => {
+    const getMyPostsRequest = async () => {
         try {
             const response = await axios({
-                url: global.API_URI + "/api/search?string=" + content,
+                url: global.API_URI + "/api/post/my",
                 method: 'get',
 
             })
@@ -72,15 +70,6 @@ const SearchResult = ({ tagName, navigation, route }) => {
             console.log(err);
         }
     }
-    const handleScroll = (item) => {
-        if (item.nativeEvent.contentOffset.y !== 0 && !this.state.toTopButtonAvailable) {
-            setTopButton(true)
-        }
-        if (item.nativeEvent.contentOffset.y === 0) {
-            setTopButton(false)
-        }
-    }
-
     const getPost = async () => {
         try {
             let response = await axios({
@@ -98,34 +87,15 @@ const SearchResult = ({ tagName, navigation, route }) => {
             setState({isLoading:true,changeNum:0,data:state.data})
         }
     }
-    const handleInsertList = ()=> {
-        if(content===""){
-            Toast.show({
-                text: "최소 한 글자 이상 입력해주세요.",
-                position: "bottom",
-                style: { width: "70%", bottom: '30%', backgroundColor: "rgba(0,0,0,0.5)", borderRadius: 25, alignSelf: "center" },
-                textStyle: { textAlign: "center" }
-            })
-            return;
-        }
-        setState({isLoading:true,changeNum:0,data:state.data})
-        route.params.handleInsert(content)
-    }
+
     return (
         <View style={styles.root}>
-            <Header style={{ backgroundColor: "#fff", alignItems: "center", height: "auto", width: "auto" }}>
-                <View style={styles.searchBar}>
-                    <Icon name="ios-search" style={{ marginLeft: 10 }} />
-                    <Input autoCapitalize="none"  style={{fontSize:14}}value={content} placeholder="Search" placeholderTextColor="#ccc" onChange={(item)=>setContent(item.nativeEvent.text)} onSubmitEditing={()=>handleInsertList()}/>
-                </View>
-                <TouchableWithoutFeedback onPress={()=>navigation.goBack()} ><Text style={{ marginRight: 10 }}>취소</Text></TouchableWithoutFeedback>
-            </Header>
             {state.isLoading ? 
                 <View style={{height:"100%",alignItems: "center", justifyContent: "center" }}><Spinner /></View>
                 :
                 <View>
                     
-                <ScrollView style={{marginBottom:110}}>
+                <ScrollView>
                     <View style={{borderTopWidth:StyleSheet.hairlineWidth, backgroundColor:"#fff",marginBottom:10,paddingLeft:20, padding:10}}><Text >{`검색결과 : ${state.data.length}`}</Text></View>
                     {state.data.map((item,index)=>(
                         <PostCard key={index} post={item} navigation={navigation} handlePostChange={handlePostChange}/>)                 
@@ -139,4 +109,4 @@ const SearchResult = ({ tagName, navigation, route }) => {
     );
 }
 
-export default SearchResult;
+export default MyPosts;

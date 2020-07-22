@@ -12,6 +12,7 @@ import Settings from './Post/Settings'
 import Timeline from './Post/Timeline'
 import UpdateBoard from './Post/UpdateBoard'
 import SelectPhoto from './Photo/SelectPhoto'
+import MyPosts from './Post/MyPosts'
 export {
     Chat,
     ChatRoomList,
@@ -26,5 +27,6 @@ export {
     Settings,
     Timeline,
     UpdateBoard,
-    SelectPhoto
+    SelectPhoto,
+    MyPosts
 }

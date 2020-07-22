@@ -36,7 +36,7 @@ export default function TabNavigator() {
     >
         <Tab.Screen name="타임라인" component={TimelineStack} />
         <Tab.Screen name="검색" component={SearchStack}/>
-        <Tab.Screen name="대화" component={ChatRoomList} />
+        {/* <Tab.Screen name="대화" component={ChatRoomList} /> */}
         <Tab.Screen name="내정보" component={Settings} />
         <Tab.Screen name="글작성" component={MakeBoard} />
       </Tab.Navigator>

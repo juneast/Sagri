@@ -45,7 +45,6 @@ const LoginScreen = ({ navigation }) => {
         }
       })
       if (response.status === 200) {
-        global.token = response.data.token;
         navigation.reset({ index: 0, routes: [{ name: "Home" }] })
       }
     } catch (err) {
